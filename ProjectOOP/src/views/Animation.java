@@ -20,6 +20,14 @@ public class Animation implements View {
         this.imageVector = images;
         this.frameRate = frameRate;
     }
+
+    public Animation(String... imageName){
+        imageVector = new Vector<>();
+        for (String name: imageName) {
+            imageVector.add(Utils.loadImage(name));
+        }
+    }
+
     public Animation(String url, int frameRate){
         this.imageVector = new Vector<>();
         imageVector = Utils.loadSheetAnimation(url, 80, 80, 0, 4);

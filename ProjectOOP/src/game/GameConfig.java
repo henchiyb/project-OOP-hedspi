@@ -11,5 +11,5 @@ public class GameConfig
     public static int WALKING_FRAME_RATE = 2; // smaller => animation faster
     public static int STANDING_FRAME_RATE = 4; // smaller => animation faster
     public static int GAME_OBJECT_DEPTH = 20;
-    public static int POP_STACK_TIME = 60;
+    public static int POP_STACK_TIME = 100;
 }
