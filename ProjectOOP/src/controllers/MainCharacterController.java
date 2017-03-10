@@ -52,11 +52,10 @@ public class MainCharacterController extends SingleController {
                 mainCharacter.runRight();
                 break;
             case SKILL_SHOOTING:
-                skillCharacterControllerArrayList.add(new SkillCharacterController(new CharacterSkill(mainCharacter.getX(),
-                        mainCharacter.getY(),
-                        mainCharacter.getZ(),
-                        40,
-                        40)));
+                skillCharacterControllerArrayList.add(new SkillCharacterController(
+                        new CharacterSkill(mainCharacter.getX() + mainCharacter.getHeight(),
+                        mainCharacter.getY() + (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2,
+                        mainCharacter.getZ())));
                 break;
         }
     }

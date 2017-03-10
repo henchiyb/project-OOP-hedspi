@@ -7,6 +7,7 @@ import utils.Rectangle3D;
  * Created by Nhan on 2/28/2017.
  */
 public abstract class GameObject {
+    protected boolean isAlive;
     protected boolean isLeft;
     protected boolean isRight;
     protected boolean isUp;
@@ -37,6 +38,13 @@ public abstract class GameObject {
         this.height = height;
     }
 
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
     public int getX() {
         return x;
     }
