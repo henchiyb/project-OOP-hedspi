@@ -2,30 +2,31 @@ package controllers;
 
 import game.GameConfig;
 import game.ResourceMap;
+import managers.ControllerManager;
+import models.CharacterSkill;
 import models.GameObject;
 import models.MainCharacter;
 import utils.Utils;
 import views.Animation;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Nhan on 3/7/2017.
  */
 public class MainCharacterController extends SingleController {
-    MainCharacter mainCharacter = (MainCharacter) this.gameObject;
+    private MainCharacter mainCharacter = (MainCharacter) this.gameObject;
+    private ArrayList<SkillCharacterController> skillCharacterControllerArrayList
+            = ControllerManager.getSkillCharacterControllerArrayList();
 
     public MainCharacterController(GameObject gameObject) {
         super(gameObject);
     }
 
-    Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING, GameConfig.WALKING_FRAME_RATE);
-    Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING, GameConfig.STANDING_FRAME_RATE);
-    Image davis;
+    private Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING, GameConfig.WALKING_FRAME_RATE);
+    private Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING, GameConfig.STANDING_FRAME_RATE);
 
-    public MainCharacterController() {
-        davis = Utils.loadImage(ResourceMap.DAVIS_STANDING);
-    }
 
     @Override
     public void run() {
@@ -49,6 +50,13 @@ public class MainCharacterController extends SingleController {
                 break;
             case RUNNING_RIGHT:
                 mainCharacter.runRight();
+                break;
+            case SKILL_SHOOTING:
+                skillCharacterControllerArrayList.add(new SkillCharacterController(new CharacterSkill(mainCharacter.getX(),
+                        mainCharacter.getY(),
+                        mainCharacter.getZ(),
+                        40,
+                        40)));
                 break;
         }
     }
@@ -78,9 +86,8 @@ public class MainCharacterController extends SingleController {
 //                mainCharacter.runRight();
                 break;
         }
-        super.draw(g);
 
-//        g.drawImage(davis, 0, 0, 320, 200, null);
+        super.draw(g);
     }
 
     public MainCharacter getMainCharacter() {
