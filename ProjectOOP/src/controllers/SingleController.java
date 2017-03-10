@@ -15,6 +15,9 @@ public class SingleController implements BaseController {
     protected View view;
     protected boolean isAlive = true;
 
+    public SingleController() {
+    }
+
     public SingleController(GameObject gameObject) {
         this.gameObject = gameObject;
     }

@@ -32,9 +32,8 @@ public class MainCharacter extends GameObject{
         this.x += GameConfig.WALKING_SPEED * 2;
     }
 //    public void jump(){
-//        this.z
+//        this.drawY = y + z;
 //    }
-
 
     public CharacterState getCharacterState() {
         return characterState;

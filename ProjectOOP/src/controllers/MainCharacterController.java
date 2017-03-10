@@ -4,6 +4,7 @@ import game.GameConfig;
 import game.ResourceMap;
 import models.GameObject;
 import models.MainCharacter;
+import utils.Utils;
 import views.Animation;
 
 import java.awt.*;
@@ -13,15 +14,22 @@ import java.awt.*;
  */
 public class MainCharacterController extends SingleController {
     MainCharacter mainCharacter = (MainCharacter) this.gameObject;
+
     public MainCharacterController(GameObject gameObject) {
         super(gameObject);
     }
+
     Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING, GameConfig.WALKING_FRAME_RATE);
     Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING, GameConfig.STANDING_FRAME_RATE);
+    Image davis;
+
+    public MainCharacterController() {
+        davis = Utils.loadImage(ResourceMap.DAVIS_STANDING);
+    }
 
     @Override
     public void run() {
-        switch (mainCharacter.getCharacterState()){
+        switch (mainCharacter.getCharacterState()) {
             case STANDING:
                 break;
             case WALKING_LEFT:
@@ -64,13 +72,15 @@ public class MainCharacterController extends SingleController {
                 this.view = animationDavisWalkingRight;
                 break;
             case RUNNING_LEFT:
-                mainCharacter.runLeft();
+//                mainCharacter.runLeft();
                 break;
             case RUNNING_RIGHT:
-                mainCharacter.runRight();
+//                mainCharacter.runRight();
                 break;
         }
         super.draw(g);
+
+//        g.drawImage(davis, 0, 0, 320, 200, null);
     }
 
     public MainCharacter getMainCharacter() {

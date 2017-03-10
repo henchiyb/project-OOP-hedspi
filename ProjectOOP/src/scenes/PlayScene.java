@@ -22,7 +22,7 @@ public class PlayScene extends GameScene{
     }
     @Override
     public void update(Graphics g) {
-//        g.drawImage(backgroundImage, 0, 0, null);
+        g.drawImage(backgroundImage, 0, 0, null);
         mainCharacterController.draw(g);
     }
 

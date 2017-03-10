@@ -10,18 +10,22 @@ public abstract class GameObject {
     protected int x;
     protected int y;
     protected int z;
+//    protected int drawX; // positon to draw
+    protected int drawY; // position to draw
     private int width;
     private int height;
 
     public GameObject(int x, int y, int z){
         this.x = x;
         this. y = y ;
+        this.z = z;
     }
 
     public GameObject(int x, int y, int z, int width, int height) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.drawY = y + z;
         this.width = width;
         this.height = height;
     }

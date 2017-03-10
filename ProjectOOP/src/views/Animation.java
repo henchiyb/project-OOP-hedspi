@@ -30,13 +30,13 @@ public class Animation implements View {
     public void draw(Graphics g, GameObject gameObject) {
         BufferedImage image = imageVector.get(imageCount);
         frameRateCount++;
+        g.drawImage(
+                image,
+                gameObject.getX(),
+                gameObject.getY(),
+                null);
         if (frameRateCount == frameRate) {
             frameRateCount = 0;
-            g.drawImage(
-                    image,
-                    gameObject.getX(),
-                    gameObject.getY(),
-                    null);
             imageCount++;
             if (imageCount > imageVector.size() - 1){
                 imageCount = 0;
