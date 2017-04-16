@@ -12,6 +12,7 @@ public abstract class GameObject {
     protected boolean isRight;
     protected boolean isUp;
     protected boolean isDown;
+    protected boolean isRunning;
     protected boolean isAttack;
     protected boolean isJump;
     protected boolean isDefend;
@@ -36,6 +37,14 @@ public abstract class GameObject {
         this.drawY = y + z;
         this.width = width;
         this.height = height;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
 
     public boolean isAlive() {

@@ -24,8 +24,18 @@ public class MainCharacterController extends SingleController {
         super(gameObject);
     }
 
-    private Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING, GameConfig.WALKING_FRAME_RATE);
-    private Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING, GameConfig.STANDING_FRAME_RATE);
+    private Animation animationDavisWalkingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_WALKING),
+            GameConfig.WALKING_FRAME_RATE);
+    private Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING,
+            GameConfig.WALKING_FRAME_RATE);
+    private Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING,
+            GameConfig.STANDING_FRAME_RATE);
+    private Animation animationDavisNormalAttack0 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_0,
+            GameConfig.ATTACKING_FRAME_RATE);
+    private Animation animationDavisNormalAttack1 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_1,
+            GameConfig.ATTACKING_FRAME_RATE);
+    private Animation animationDavisNormalAttack2 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
+            GameConfig.ATTACKING_FRAME_RATE);
 
 
     @Override
@@ -51,6 +61,10 @@ public class MainCharacterController extends SingleController {
             case RUNNING_RIGHT:
                 mainCharacter.runRight();
                 break;
+            case ATTACKING_NORMAL:
+            case ATTACKING_HARD:
+//                mainCharacter.runRight();
+                break;
             case SKILL_SHOOTING:
                 skillCharacterControllerArrayList.add(new SkillCharacterController(
                         new CharacterSkill(mainCharacter.getX() + mainCharacter.getHeight(),
@@ -67,7 +81,7 @@ public class MainCharacterController extends SingleController {
                 this.view = animationDavisStanding;
                 break;
             case WALKING_LEFT:
-                this.view = animationDavisWalkingRight;
+                this.view = animationDavisWalkingLeft;
                 break;
             case WALKING_RIGHT:
                 this.view = animationDavisWalkingRight;
@@ -79,10 +93,31 @@ public class MainCharacterController extends SingleController {
                 this.view = animationDavisWalkingRight;
                 break;
             case RUNNING_LEFT:
-//                mainCharacter.runLeft();
+                this.view = animationDavisWalkingLeft;
                 break;
             case RUNNING_RIGHT:
-//                mainCharacter.runRight();
+                this.view = animationDavisWalkingRight;
+                break;
+            case ATTACKING_NORMAL:
+                this.view = animationDavisNormalAttack0;
+                if (animationDavisNormalAttack0.isAnimationEnd()){
+                    animationDavisNormalAttack0.setAnimationEnd(false);
+                }
+                break;
+            case ATTACKING_HARD:
+//                this.view = animationDavisNormalAttack0;
+//                if (animationDavisNormalAttack0.isAnimationEnd()){
+//                    this.view = animationDavisNormalAttack1;
+//                    if (animationDavisNormalAttack1.isAnimationEnd()){
+//                        this.view = animationDavisNormalAttack2;
+//                        if (animationDavisNormalAttack2.isAnimationEnd()){
+//                            mainCharacter.setAttack(false);
+//                            animationDavisNormalAttack0.setAnimationEnd(false);
+//                            animationDavisNormalAttack1.setAnimationEnd(false);
+//                            animationDavisNormalAttack2.setAnimationEnd(false);
+//                        }
+//                    }
+//                }
                 break;
         }
 

@@ -35,9 +35,6 @@ public class ControllerManager implements BaseController{
 
     @Override
     public void run() {
-//        for (int i = 0; i < controllerArrayList.size(); i++){
-//            controllerArrayList.get(i).run();
-//        }
         for (int i = 0; i < skillCharacterControllerArrayList.size(); i++){
             skillCharacterControllerArrayList.get(i).run();
         }
@@ -45,9 +42,6 @@ public class ControllerManager implements BaseController{
 
     @Override
     public void draw(Graphics g) {
-//        for (int i = 0; i < controllerArrayList.size(); i++){
-//            controllerArrayList.get(i).draw(g);
-//        }
         for (int i = 0; i < skillCharacterControllerArrayList.size(); i++){
             skillCharacterControllerArrayList.get(i).draw(g);
         }

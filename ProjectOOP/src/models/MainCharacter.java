@@ -34,10 +34,10 @@ public class MainCharacter extends GameObject{
         this.y += GameConfig.WALKING_SPEED;
     }
     public void runLeft(){
-        this.x -= GameConfig.WALKING_SPEED * 2;
+        this.x -= GameConfig.RUNNING_SPEED;
     }
     public void runRight(){
-        this.x += GameConfig.WALKING_SPEED * 2;
+        this.x += GameConfig.RUNNING_SPEED;
     }
 //    public void jump(){
 //        this.drawY = y + z;

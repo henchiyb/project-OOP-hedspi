@@ -12,7 +12,8 @@ public enum CharacterState {
     RUNNING_LEFT,
     RUNNING_RIGHT,
     JUMPING,
-    ATTACKING,
+    ATTACKING_NORMAL,
+    ATTACKING_HARD,
     DEFENDING,
     SKILL_SHOOTING
 }

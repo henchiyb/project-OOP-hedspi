@@ -31,7 +31,25 @@ public class Utils {
             imageVector.add(subImage);
         }
         return imageVector;
+    }
 
+    public static BufferedImage imageFlip(BufferedImage image) {
+        for (int i = 0; i < image.getWidth() / 2; i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                int tmp = image.getRGB(i, j);
+                image.setRGB(i, j, image.getRGB(image.getWidth() - i - 1, j));
+                image.setRGB(image.getWidth() - i - 1, j, tmp);
+            }
+        }
+        return image;
+    }
 
+    public static Vector<BufferedImage> flipImages(String[] imagesName){
+        Vector<BufferedImage> imageVector = new Vector<>();
+        for (int i = 0; i < imagesName.length; i++){
+            BufferedImage image = loadImage(imagesName[i]);
+            imageVector.add(imageFlip(image));
+        }
+        return imageVector;
     }
 }
