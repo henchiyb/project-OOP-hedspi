@@ -10,10 +10,24 @@ public abstract class GameObject {
     protected boolean isAlive;
     protected boolean isLeft;
     protected boolean isRight;
-    protected boolean isUp;
-    protected boolean isDown;
-    protected boolean isRunning;
     protected boolean isAttack;
+
+    public boolean isLeft() {
+        return isLeft;
+    }
+
+    public void setLeft(boolean left) {
+        isLeft = left;
+    }
+
+    public boolean isRight() {
+        return isRight;
+    }
+
+    public void setRight(boolean right) {
+        isRight = right;
+    }
+
     protected boolean isJump;
     protected boolean isDefend;
     protected int x;
@@ -37,14 +51,6 @@ public abstract class GameObject {
         this.drawY = y + z;
         this.width = width;
         this.height = height;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void setRunning(boolean running) {
-        isRunning = running;
     }
 
     public boolean isAlive() {
@@ -74,21 +80,6 @@ public abstract class GameObject {
         return height;
     }
 
-    public boolean isLeft() {
-        return isLeft;
-    }
-
-    public boolean isRight() {
-        return isRight;
-    }
-
-    public boolean isUp() {
-        return isUp;
-    }
-
-    public boolean isDown() {
-        return isDown;
-    }
 
     public boolean isAttack() {
         return isAttack;
@@ -104,22 +95,6 @@ public abstract class GameObject {
 
     public int getDrawY() {
         return drawY;
-    }
-
-    public void setLeft(boolean left) {
-        isLeft = left;
-    }
-
-    public void setRight(boolean right) {
-        isRight = right;
-    }
-
-    public void setUp(boolean up) {
-        isUp = up;
-    }
-
-    public void setDown(boolean down) {
-        isDown = down;
     }
 
     public void setAttack(boolean attack) {

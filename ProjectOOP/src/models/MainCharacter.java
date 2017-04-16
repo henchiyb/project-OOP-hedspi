@@ -19,6 +19,7 @@ public class MainCharacter extends GameObject{
     public MainCharacter(int x, int y, int z, int width, int height){
         super(x, y, z, width, height);
         stackControlAction  = new Stack<>();
+        this.setLeft(true);
     }
 
     public void walkLeft(){

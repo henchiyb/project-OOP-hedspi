@@ -28,7 +28,9 @@ public class MainCharacterController extends SingleController {
             GameConfig.WALKING_FRAME_RATE);
     private Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING,
             GameConfig.WALKING_FRAME_RATE);
-    private Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING,
+    private Animation animationDavisStandingRight = new Animation(ResourceMap.DAVIS_STANDING,
+            GameConfig.STANDING_FRAME_RATE);
+    private Animation animationDavisStandingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_STANDING),
             GameConfig.STANDING_FRAME_RATE);
     private Animation animationDavisNormalAttack0 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_0,
             GameConfig.ATTACKING_FRAME_RATE);
@@ -78,7 +80,10 @@ public class MainCharacterController extends SingleController {
     public void draw(Graphics g) {
         switch (mainCharacter.getCharacterState()){
             case STANDING:
-                this.view = animationDavisStanding;
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisStandingLeft;
+                else
+                    this.view = animationDavisStandingRight;
                 break;
             case WALKING_LEFT:
                 this.view = animationDavisWalkingLeft;
@@ -87,10 +92,16 @@ public class MainCharacterController extends SingleController {
                 this.view = animationDavisWalkingRight;
                 break;
             case WALKING_DOWN:
-                this.view = animationDavisWalkingRight;
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisWalkingLeft;
+                else
+                    this.view = animationDavisWalkingRight;
                 break;
             case WALKING_UP:
-                this.view = animationDavisWalkingRight;
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisWalkingLeft;
+                else
+                    this.view = animationDavisWalkingRight;
                 break;
             case RUNNING_LEFT:
                 this.view = animationDavisWalkingLeft;

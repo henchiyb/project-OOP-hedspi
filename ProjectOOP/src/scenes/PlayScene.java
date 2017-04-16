@@ -105,10 +105,12 @@ public class PlayScene extends GameScene{
                 case KeyEvent.VK_LEFT:
                     addKeyCodeIntoStack(KeyEvent.VK_LEFT);
                     mainCharacter.setCharacterState(CharacterState.WALKING_LEFT);
+                    mainCharacter.setLeft(true);
                     break;
                 case KeyEvent.VK_RIGHT:
                     addKeyCodeIntoStack(KeyEvent.VK_RIGHT);
                     mainCharacter.setCharacterState(CharacterState.WALKING_RIGHT);
+                    mainCharacter.setLeft(false);
                     break;
                 case KeyEvent.VK_J:
                     addKeyCodeIntoStack(KeyEvent.VK_J);
