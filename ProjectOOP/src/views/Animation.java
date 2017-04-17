@@ -1,5 +1,6 @@
 package views;
 
+import game.GameConfig;
 import models.GameObject;
 import utils.Utils;
 
@@ -24,6 +25,15 @@ public class Animation implements View {
         this.imageVector = new Vector<>();
         imageVector = Utils.loadSheetAnimation(url, 80, 80, 0, 4);
         this.frameRate = frameRate;
+    }
+
+    public Animation(String... imageName){
+        imageVector = new Vector<>();
+        for (String name: imageName) {
+            imageVector.add(Utils.loadImage(name));
+            System.out.println("name : " + name);
+            this.frameRate = GameConfig.STANDING_FRAME_RATE;
+        }
     }
 
     @Override

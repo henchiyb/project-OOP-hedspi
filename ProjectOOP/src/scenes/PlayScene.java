@@ -1,9 +1,12 @@
 package scenes;
 
+import controllers.ItemController;
 import controllers.MainCharacterController;
 import game.GameConfig;
 import managers.ControllerManager;
 import models.CharacterState;
+import models.Item;
+import models.ItemState;
 import models.MainCharacter;
 import utils.Utils;
 
@@ -20,12 +23,21 @@ public class PlayScene extends GameScene{
     private Stack<Integer> stackControlAction;
     private ArrayList<Integer> arrayAction = new ArrayList<>();
     private MainCharacter mainCharacter;
+
+    private Item item;
+    private ItemController itemController;
+
     private Image backgroundImage;
     private ControllerManager controllerManager;
     public PlayScene(){
         mainCharacterController = new MainCharacterController(new MainCharacter(0, 300, 0, 80, 80));
         mainCharacter = mainCharacterController.getMainCharacter();
         stackControlAction = mainCharacter.getStackControlAction();
+
+        itemController = new ItemController(new Item(20,40,0,80,80));
+        item = itemController.getItem();
+        itemController.setMainCharacter(mainCharacter);
+
         backgroundImage = Utils.loadImage("res/background.png");
         controllerManager = new ControllerManager();
     }
@@ -33,6 +45,7 @@ public class PlayScene extends GameScene{
     public void update(Graphics g) {
         g.drawImage(backgroundImage, 0, 0, null);
         mainCharacterController.draw(g);
+        itemController.draw(g);
         controllerManager.draw(g);
     }
 
@@ -68,6 +81,7 @@ public class PlayScene extends GameScene{
             mainCharacter.setCharacterState(CharacterState.STANDING);
         }
 
+        itemController.run();
 
         if(stackControlAction.size() > 2) {
             int a = stackControlAction.pop();
