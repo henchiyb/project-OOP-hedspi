@@ -2,26 +2,35 @@ package controllers;
 
 import game.GameConfig;
 import game.ResourceMap;
+import managers.ControllerManager;
+import models.CharacterSkill;
 import models.GameObject;
 import models.MainCharacter;
+import utils.Utils;
 import views.Animation;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Nhan on 3/7/2017.
  */
 public class MainCharacterController extends SingleController {
-    MainCharacter mainCharacter = (MainCharacter) this.gameObject;
+    private MainCharacter mainCharacter = (MainCharacter) this.gameObject;
+    private ArrayList<SkillCharacterController> skillCharacterControllerArrayList
+            = ControllerManager.getSkillCharacterControllerArrayList();
+
     public MainCharacterController(GameObject gameObject) {
         super(gameObject);
     }
-    Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING, GameConfig.WALKING_FRAME_RATE);
-    Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING, GameConfig.STANDING_FRAME_RATE);
+
+    private Animation animationDavisWalkingRight = new Animation(ResourceMap.DAVIS_WALKING, GameConfig.WALKING_FRAME_RATE);
+    private Animation animationDavisStanding = new Animation(ResourceMap.DAVIS_STANDING, GameConfig.STANDING_FRAME_RATE);
+
 
     @Override
     public void run() {
-        switch (mainCharacter.getCharacterState()){
+        switch (mainCharacter.getCharacterState()) {
             case STANDING:
                 break;
             case WALKING_LEFT:
@@ -41,6 +50,12 @@ public class MainCharacterController extends SingleController {
                 break;
             case RUNNING_RIGHT:
                 mainCharacter.runRight();
+                break;
+            case SKILL_SHOOTING:
+                skillCharacterControllerArrayList.add(new SkillCharacterController(
+                        new CharacterSkill(mainCharacter.getX() + mainCharacter.getHeight(),
+                        mainCharacter.getY() + (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2,
+                        mainCharacter.getZ())));
                 break;
         }
     }
@@ -64,12 +79,13 @@ public class MainCharacterController extends SingleController {
                 this.view = animationDavisWalkingRight;
                 break;
             case RUNNING_LEFT:
-                mainCharacter.runLeft();
+//                mainCharacter.runLeft();
                 break;
             case RUNNING_RIGHT:
-                mainCharacter.runRight();
+//                mainCharacter.runRight();
                 break;
         }
+
         super.draw(g);
     }
 

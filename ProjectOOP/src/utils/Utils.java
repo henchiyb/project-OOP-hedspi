@@ -1,7 +1,6 @@
 package utils;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class Utils {
     public static Vector<BufferedImage> loadSheetAnimation(String url, int width, int height, int border, int imageCount){
         Vector<BufferedImage> imageVector = new Vector<>();
         BufferedImage image = loadImage(url);
-        for(int i =0; i < imageCount; i ++){
+        for(int i = 0; i < imageCount; i++){
             int x = i * width + border * (i + 1);
             int y = border;
             BufferedImage subImage = image.getSubimage(x, y, width, height);
