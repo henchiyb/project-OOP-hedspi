@@ -6,6 +6,8 @@ import managers.ControllerManager;
 import models.CharacterState;
 import models.MainCharacter;
 import utils.Utils;
+import controllers.RobotController;
+import models.Robot;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,6 +23,10 @@ public class PlayScene extends GameScene{
     private Stack<Integer> stackCheckPressed;
     private ArrayList<Integer> arrayAction = new ArrayList<>();
     private MainCharacter mainCharacter;
+
+    private RobotController robotController;
+    private Robot robot;
+
     private Image backgroundImage;
     private ControllerManager controllerManager;
     public PlayScene(){
@@ -28,6 +34,12 @@ public class PlayScene extends GameScene{
         mainCharacter = mainCharacterController.getMainCharacter();
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();
+
+        robotController = new RobotController(new Robot(600,300,0, 80, 80));
+        robot = robotController.getRobotController();
+        // set maincharacter in robot controler
+        robotController.setMainCharacter(mainCharacter) ;
+
         backgroundImage = Utils.loadImage("res/background.png");
         controllerManager = new ControllerManager();
     }
@@ -35,15 +47,16 @@ public class PlayScene extends GameScene{
     public void update(Graphics g) {
         g.drawImage(backgroundImage, 0, 0, null);
         mainCharacterController.draw(g);
+        robotController.draw(g);
         controllerManager.draw(g);
     }
-
-
-
+	
     private int popStackCount = 0;
 
     @Override
     public void run() {
+        robotController.run();
+
         mainCharacterController.run();
         popStackCount++;
         if (popStackCount == GameConfig.POP_STACK_TIME){
