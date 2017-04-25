@@ -32,9 +32,9 @@ public class Animation implements View {
     }
 
     public Animation(String... imageName){
-        imageVector = new Vector<>();
+        this.imageVector = new Vector<>();
         for (String name: imageName) {
-            imageVector.add(Utils.loadImage(name));
+            this.imageVector.add(Utils.loadImage(name));
             System.out.println("name : " + name);
             this.frameRate = GameConfig.STANDING_FRAME_RATE;
 
@@ -63,6 +63,8 @@ public class Animation implements View {
                 image,
                 gameObject.getX(),
                 gameObject.getY(),
+                gameObject.getWidth(),
+                gameObject.getHeight(),
                 null);
         if (frameRateCount == frameRate) {
             frameRateCount = 0;
@@ -74,4 +76,5 @@ public class Animation implements View {
         }
 
     }
+
 }

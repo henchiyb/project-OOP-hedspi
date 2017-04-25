@@ -17,11 +17,12 @@ public class RobotController extends SingleController {
 
     private Robot robot = (Robot) this.gameObject;
     private MainCharacter mainCharacter;
-    private SingleView robotImage = new SingleView("res/robot_left_4.png");
-    private Animation animationRobot = new Animation("res/robot_left_0.png",
-            "res/robot_left_1.png",
-            "res/robot_left_2.png",
-            "res/robot_left_3.png");
+    private SingleView robotImage = new SingleView("res/Walk (1).png");
+    private Animation animationRobot = new Animation("res/Walk (1).png",
+            "res/Walk (2).png",
+            "res/Walk (3).png",
+            "res/Walk (4).png",
+            "res/Walk (5).png");
 
     //public static final int SPEED = 5;
 
@@ -66,8 +67,10 @@ public class RobotController extends SingleController {
                 (robot.getX() - mainCharacter.getX()) > 100 ||
                 (robot.getX() - mainCharacter.getX()) < -100){
             this.view = animationRobot;
+
         } else {
             this.view = robotImage;
+
         }
         super.draw(g);
     }

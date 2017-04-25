@@ -1,10 +1,12 @@
 package scenes;
 
+import controllers.BulletRobotController;
 import controllers.MainCharacterController;
 import game.GameConfig;
 import managers.ControllerManager;
 import models.CharacterState;
 import models.MainCharacter;
+import models.RobotBullet;
 import utils.Utils;
 import controllers.RobotController;
 import models.Robot;
@@ -27,19 +29,25 @@ public class PlayScene extends GameScene{
     private RobotController robotController;
     private Robot robot;
 
+    private RobotBullet robotBullet;
+    private BulletRobotController bulletRobotController;
+
     private Image backgroundImage;
     private ControllerManager controllerManager;
     public PlayScene(){
-        mainCharacterController = new MainCharacterController(new MainCharacter(0, 300, 0, 80, 80));
+        mainCharacterController = new MainCharacterController(new MainCharacter(0, 300, 0, 40, 80));
         mainCharacter = mainCharacterController.getMainCharacter();
-        stackControlAction = mainCharacter.getStackControlAction();
-        stackCheckPressed = new Stack<>();
 
-        robotController = new RobotController(new Robot(600,300,0, 80, 80));
+        robotController = new RobotController(new Robot(10,10,0, 80, 100));
         robot = robotController.getRobotController();
         // set maincharacter in robot controler
         robotController.setMainCharacter(mainCharacter) ;
 
+        bulletRobotController = new BulletRobotController(new RobotBullet(robot.getX(),robot.middleY() - 10, 0 ));
+        robotBullet = bulletRobotController.getRobotBullet();
+
+        stackControlAction = mainCharacter.getStackControlAction();
+        stackCheckPressed = new Stack<>();
         backgroundImage = Utils.loadImage("res/background.png");
         controllerManager = new ControllerManager();
     }
@@ -49,15 +57,18 @@ public class PlayScene extends GameScene{
         mainCharacterController.draw(g);
         robotController.draw(g);
         controllerManager.draw(g);
+        bulletRobotController.draw(g);
     }
-	
+
     private int popStackCount = 0;
 
     @Override
     public void run() {
         robotController.run();
+        bulletRobotController.run();
 
         mainCharacterController.run();
+
         popStackCount++;
         if (popStackCount == GameConfig.POP_STACK_TIME){
             popStackCount = 0;
@@ -99,7 +110,7 @@ public class PlayScene extends GameScene{
     }
 
     private void addKeyCodeIntoStack(Integer keyEvent){
-            stackControlAction.add(keyEvent);
+        stackControlAction.add(keyEvent);
     }
 
     @Override

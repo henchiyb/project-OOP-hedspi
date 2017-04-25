@@ -108,6 +108,11 @@ public abstract class GameObject {
         isDefend = defend;
     }
 
+    // BAN DAN ROBOT
+    public int middleY() {
+        return this.y + this.height / 2;
+    }
+
     public void setX(int x) {
         this.x = x;
     }

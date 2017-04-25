@@ -16,7 +16,6 @@ public class SingleController implements BaseController {
     protected View view;
     protected boolean isAlive = true;
 
-
     public SingleController() {
     }
 
