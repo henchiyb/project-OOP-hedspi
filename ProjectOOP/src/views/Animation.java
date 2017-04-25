@@ -2,6 +2,7 @@ package views;
 
 import models.GameObject;
 import utils.Utils;
+import game.GameConfig;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,6 +29,16 @@ public class Animation implements View {
             this.imageVector.add(image);
         }
         this.frameRate = frameRate;
+    }
+
+    public Animation(String... imageName){
+        imageVector = new Vector<>();
+        for (String name: imageName) {
+            imageVector.add(Utils.loadImage(name));
+            System.out.println("name : " + name);
+            this.frameRate = GameConfig.STANDING_FRAME_RATE;
+
+        }
     }
 
     public Animation(String url, int frameRate){

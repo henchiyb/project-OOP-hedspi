@@ -80,7 +80,6 @@ public abstract class GameObject {
         return height;
     }
 
-
     public boolean isAttack() {
         return isAttack;
     }
