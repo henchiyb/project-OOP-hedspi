@@ -32,3 +32,4 @@ public class Rectangle3D {
                 (this.z <= rect.maxZ && this.maxZ >= rect.z);
     }
 }
+

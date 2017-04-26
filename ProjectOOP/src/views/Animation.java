@@ -21,6 +21,16 @@ public class Animation implements View {
         this.imageVector = images;
         this.frameRate = frameRate;
     }
+
+    public Animation(String[] imagesName, int frameRate){
+        this.imageVector = new Vector<>();
+        for (int i =0; i < imagesName.length; i++){
+            BufferedImage image = Utils.loadImage(imagesName[i]);
+            this.imageVector.add(image);
+        }
+        this.frameRate = frameRate;
+    }
+
     public Animation(String url, int frameRate){
         this.imageVector = new Vector<>();
         imageVector = Utils.loadSheetAnimation(url, 80, 80, 0, 4);
@@ -34,6 +44,14 @@ public class Animation implements View {
             System.out.println("name : " + name);
             this.frameRate = GameConfig.STANDING_FRAME_RATE;
         }
+    }
+
+    public boolean isAnimationEnd() {
+        return animationEnd;
+    }
+
+    public void setAnimationEnd(boolean animationEnd) {
+        this.animationEnd = animationEnd;
     }
 
     @Override
