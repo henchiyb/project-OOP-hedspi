@@ -44,6 +44,10 @@ public class Animation implements View {
         this.animationEnd = animationEnd;
     }
 
+    public void setImageCount(int imageCount) {
+        this.imageCount = imageCount;
+    }
+
     @Override
     public void draw(Graphics g, GameObject gameObject) {
         BufferedImage image = imageVector.get(imageCount);
@@ -51,7 +55,7 @@ public class Animation implements View {
         g.drawImage(
                 image,
                 gameObject.getX(),
-                gameObject.getY(),
+                gameObject.getDrawY(),
                 null);
         if (frameRateCount == frameRate) {
             frameRateCount = 0;
@@ -61,6 +65,5 @@ public class Animation implements View {
                 animationEnd = true;
             }
         }
-
     }
 }

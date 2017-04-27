@@ -4,12 +4,17 @@ package utils;
  * Created by Nhan on 3/6/2017.
  */
 public class Rectangle3D {
+    //position start of rectangle
     private int x;
     private int y;
     private int z;
+
+    //position end of ractangle
     private int maxX;
     private int maxY;
     private int maxZ;
+
+    //size of rectangle
     private int width;
     private int height;
     private int depth;

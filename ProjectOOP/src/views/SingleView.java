@@ -1,6 +1,7 @@
 package views;
 
 import models.GameObject;
+import utils.Utils;
 
 import java.awt.*;
 
@@ -12,6 +13,10 @@ public class SingleView implements View {
 
     public SingleView(Image image) {
         this.image = image;
+    }
+
+    public SingleView(String url) {
+        this.image = Utils.loadImage(url);
     }
 
     public Image getImage() {
@@ -27,9 +32,9 @@ public class SingleView implements View {
         g.drawImage(
                 image,
                 gameObject.getX(),
-                gameObject.getY(),
-                gameObject.getWidth(),
-                gameObject.getHeight(),
+                gameObject.getDrawY(),
+//                gameObject.getWidth(),
+//                gameObject.getHeight(),
                 null);
     }
 }

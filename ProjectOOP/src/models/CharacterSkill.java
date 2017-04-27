@@ -18,13 +18,21 @@ public class CharacterSkill extends GameObject {
     }
 
     public void moveLeft(){
-        this.x -= GameConfig.SKILL_DAVIS_SPEED;
+        this.x -= GameConfig.BALL_FLYING_SPEED;
     }
 
     public void moveRight(){
-        this.x += GameConfig.SKILL_DAVIS_SPEED;
+        this.x += GameConfig.BALL_FLYING_SPEED;
     }
 
 
+    @Override
+    public GameObject getGameObject() {
+        return this;
+    }
 
+    @Override
+    public void onCollide(Collision otherCollision) {
+
+    }
 }
