@@ -33,7 +33,18 @@ public class Utils {
         return imageVector;
     }
 
-    public static BufferedImage imageFlip(BufferedImage image) {
+    public static BufferedImage makeImageTranslucent(BufferedImage source, double alpha) {
+        BufferedImage image = new BufferedImage(source.getWidth(),
+                source.getHeight(),
+                java.awt.Transparency.TRANSLUCENT);
+        Graphics2D g = image.createGraphics();
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alpha));
+        g.drawImage(source, null, 0, 0);
+        g.dispose();
+        return image;
+    }
+
+    public static BufferedImage flipImage(BufferedImage image) {
         for (int i = 0; i < image.getWidth() / 2; i++) {
             for (int j = 0; j < image.getHeight(); j++) {
                 int tmp = image.getRGB(i, j);
@@ -48,7 +59,15 @@ public class Utils {
         Vector<BufferedImage> imageVector = new Vector<>();
         for (int i = 0; i < imagesName.length; i++){
             BufferedImage image = loadImage(imagesName[i]);
-            imageVector.add(imageFlip(image));
+            imageVector.add(flipImage(image));
+        }
+        return imageVector;
+    }
+    public static Vector<BufferedImage> flipImages(Vector<BufferedImage> imagesName){
+        Vector<BufferedImage> imageVector = new Vector<>();
+        for (int i = 0; i < imagesName.size(); i++){
+            BufferedImage image = imagesName.get(i);
+            imageVector.add(flipImage(image));
         }
         return imageVector;
     }

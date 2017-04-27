@@ -1,9 +1,9 @@
 package controllers;
 
+import game.GameConfig;
 import game.ResourceMap;
 import models.CharacterSkill;
 import models.GameObject;
-import models.MainCharacter;
 import utils.Utils;
 import views.Animation;
 import views.SingleView;
@@ -15,10 +15,11 @@ import java.awt.*;
  */
 public class SkillCharacterController extends SingleController {
 
-    private SingleView skillView = new SingleView(Utils.loadImage("res/davis_walking_0.png"));
+    private SingleView skillSingleView = new SingleView(Utils.loadImage("res/davis_ball_5.png"));
+    private Animation skillAnimation = new Animation(ResourceMap.DAVIS_BALL_FLY, GameConfig.BALL_FLYING_FRAME_RATE);
     public SkillCharacterController(GameObject gameObject) {
         super(gameObject);
-        this.view = skillView;
+        this.view = skillAnimation;
     }
 
     public SkillCharacterController(GameObject gameObject, SingleView view) {
@@ -34,5 +35,9 @@ public class SkillCharacterController extends SingleController {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
+        if (skillAnimation.isAnimationEnd()){
+            skillAnimation.setAnimationEnd(false);
+            this.view = skillSingleView;
+        }
     }
 }

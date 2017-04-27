@@ -6,11 +6,19 @@ import utils.Rectangle3D;
 /**
  * Created by Nhan on 2/28/2017.
  */
-public abstract class GameObject {
+public abstract class GameObject implements Collision{
     protected boolean isAlive;
-    protected boolean isLeft;
-    protected boolean isRight;
+    protected boolean isLeft = true;
     protected boolean isAttack;
+    protected boolean isJump;
+    protected boolean isDefend;
+    protected int x;
+    protected int y;
+    protected int z;
+    //    protected int drawX; // positon to draw
+    protected int drawY; // position to draw
+    private int width;
+    private int height;
 
     public boolean isLeft() {
         return isLeft;
@@ -20,35 +28,18 @@ public abstract class GameObject {
         isLeft = left;
     }
 
-    public boolean isRight() {
-        return isRight;
-    }
-
-    public void setRight(boolean right) {
-        isRight = right;
-    }
-
-    protected boolean isJump;
-    protected boolean isDefend;
-    protected int x;
-    protected int y;
-    protected int z;
-//    protected int drawX; // positon to draw
-    protected int drawY; // position to draw
-    private int width;
-    private int height;
-
     public GameObject(int x, int y, int z){
         this.x = x;
         this. y = y ;
         this.z = z;
+        this.drawY = y;
     }
 
     public GameObject(int x, int y, int z, int width, int height) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.drawY = y + z;
+        this.drawY = y;
         this.width = width;
         this.height = height;
     }
