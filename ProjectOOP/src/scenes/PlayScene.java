@@ -28,6 +28,9 @@ public class PlayScene extends GameScene{
 
     private RobotController robotController;
     private Robot robot;
+    
+    private RobotController robotController2;
+    private Robot robot2;
 
     private RobotBullet robotBullet;
     private BulletRobotController bulletRobotController;
@@ -38,13 +41,9 @@ public class PlayScene extends GameScene{
         mainCharacterController = new MainCharacterController(new MainCharacter(0, 300, 0, 40, 80));
         mainCharacter = mainCharacterController.getMainCharacter();
 
-        robotController = new RobotController(new Robot(10,10,0, 80, 100));
+        robotController = new RobotController(new Robot(600,300,0, 80, 100));
         robot = robotController.getRobotController();
-        // set maincharacter in robot controler
         robotController.setMainCharacter(mainCharacter) ;
-
-        bulletRobotController = new BulletRobotController(new RobotBullet(robot.getX(),robot.middleY() - 10, 0 ));
-        robotBullet = bulletRobotController.getRobotBullet();
 
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();
@@ -56,8 +55,8 @@ public class PlayScene extends GameScene{
         g.drawImage(backgroundImage, 0, 0, null);
         mainCharacterController.draw(g);
         robotController.draw(g);
+        
         controllerManager.draw(g);
-        bulletRobotController.draw(g);
     }
 
     private int popStackCount = 0;
@@ -65,7 +64,6 @@ public class PlayScene extends GameScene{
     @Override
     public void run() {
         robotController.run();
-        bulletRobotController.run();
 
         mainCharacterController.run();
 

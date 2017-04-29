@@ -14,4 +14,10 @@ public class ResourceMap {
             "res/davis_normal_attack_5.png", "res/davis_normal_attack_6.png"};
     public static final String[] DAVIS_NORMAL_ATTACK_2 = {"res/davis_normal_attack_7.png",
             "res/davis_normal_attack_8.png", "res/davis_normal_attack_9.png"};
+    public static final String[] ROBOT = {"res/Walk (1).png",
+            "res/Walk (2).png","res/Walk (3).png","res/Walk (4).png","res/Walk (5).png"};
+    public static final String[] BULLET = {"res/john_ball_1.png",
+            "res/john_ball_2.png","res/john_ball_3.png","res/john_ball_4.png","res/john_ball_5.png"};
+    public static final String[] ROBOT_STANDING = {"res/Walk (1).png"};
+    
 }
