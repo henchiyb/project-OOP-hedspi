@@ -1,5 +1,6 @@
 package controllers;
 
+import managers.ControllerManager;
 import models.GameObject;
 import views.Animation;
 import views.SingleView;
@@ -14,6 +15,9 @@ public class SingleController implements BaseController {
     protected GameObject gameObject;
     protected View view;
     protected boolean isAlive = true;
+
+    public SingleController() {
+    }
 
     public SingleController(GameObject gameObject) {
         this.gameObject = gameObject;

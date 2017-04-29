@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by Nhan on 2/28/2017.
  */
-public class GameWindow extends JFrame implements Runnable{
+public class GameWindow extends Frame implements Runnable{
     private static final int SCREEN_WIDTH = 768;
     private static final int SCREEN_HEIGHT = 600;
     private BufferedImage backBuffer;
@@ -36,7 +36,7 @@ public class GameWindow extends JFrame implements Runnable{
     @Override
     public void run() {
         while (true){
-            update(getGraphics());
+            repaint();
             try {
                 Thread.sleep(17);
             } catch (InterruptedException e) {
@@ -49,7 +49,7 @@ public class GameWindow extends JFrame implements Runnable{
 
     @Override
     public void update(Graphics g) {
-        playScene.update(backGraphic);
-        g.drawImage(backBuffer, 0, 0, null);
+       playScene.update(backGraphic);
+       g.drawImage(backBuffer, 0, 0, null);
     }
 }
