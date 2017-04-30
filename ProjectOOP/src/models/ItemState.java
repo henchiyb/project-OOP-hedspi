@@ -7,6 +7,7 @@ public enum ItemState {
     IN_THE_SKY,
     ON_HAND,
     THROWING,
-    ON_GROUND
-//    JUST_ON_GROUND
+    ON_GROUND,
+    BROKEN,
+    DISAPPEAR
 }

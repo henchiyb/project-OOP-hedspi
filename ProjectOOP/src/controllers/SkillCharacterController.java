@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public class SkillCharacterController extends SingleController {
 
-    private SingleView skillView = new SingleView(Utils.loadImage(ResourceMap.DAVIS_STANDING));
+    private SingleView skillView = new SingleView(Utils.loadImage("res/davis_walking_0.png"));
     public SkillCharacterController(GameObject gameObject) {
         super(gameObject);
         this.view = skillView;
