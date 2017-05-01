@@ -1,5 +1,7 @@
 package controllers;
 
+import models.GameObject;
+
 import java.awt.*;
 
 /**

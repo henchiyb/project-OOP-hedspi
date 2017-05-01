@@ -1,5 +1,6 @@
 package views;
 
+import game.GameConfig;
 import models.GameObject;
 import utils.Utils;
 
@@ -32,8 +33,16 @@ public class Animation implements View {
 
     public Animation(String url, int frameRate){
         this.imageVector = new Vector<>();
-        imageVector = Utils.loadSheetAnimation(url, 80, 80, 0, 4);
+        imageVector = Utils.loadSheetAnimation(url, 73, 77, 0, 5);
         this.frameRate = frameRate;
+    }
+    public Animation(int frameRate, String... imageName){
+        imageVector = new Vector<>();
+        for (String name: imageName) {
+            imageVector.add(Utils.loadImage(name));
+            System.out.println("name : " + name);
+            this.frameRate = frameRate;
+        }
     }
 
     public boolean isAnimationEnd() {
@@ -44,8 +53,16 @@ public class Animation implements View {
         this.animationEnd = animationEnd;
     }
 
-    public void setImageCount(int imageCount) {
+    public void resetAnimation(int imageCount) {
         this.imageCount = imageCount;
+    }
+
+    public int getNumberOfFrame() {
+        return imageVector.size() - 1;
+    }
+
+    public BufferedImage getSubImage(int position){
+        return imageVector.get(position);
     }
 
     @Override

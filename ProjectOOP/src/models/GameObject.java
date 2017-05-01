@@ -1,5 +1,6 @@
 package models;
 
+import controllers.CollisionController;
 import game.GameConfig;
 import utils.Rectangle3D;
 
@@ -7,7 +8,7 @@ import utils.Rectangle3D;
  * Created by Nhan on 2/28/2017.
  */
 public abstract class GameObject implements Collision{
-    protected boolean isAlive;
+    protected boolean isAlive = true;
     protected boolean isLeft = true;
     protected boolean isAttack;
     protected boolean isJump;
@@ -15,8 +16,7 @@ public abstract class GameObject implements Collision{
     protected int x;
     protected int y;
     protected int z;
-    //    protected int drawX; // positon to draw
-    protected int drawY; // position to draw
+    protected int drawY; // position y to draw
     private int width;
     private int height;
 
@@ -32,14 +32,14 @@ public abstract class GameObject implements Collision{
         this.x = x;
         this. y = y ;
         this.z = z;
-        this.drawY = y;
+        this.drawY = z;
     }
 
     public GameObject(int x, int y, int z, int width, int height) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.drawY = y;
+        this.drawY = z;
         this.width = width;
         this.height = height;
     }
@@ -51,6 +51,7 @@ public abstract class GameObject implements Collision{
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
+
     public int getX() {
         return x;
     }
@@ -114,6 +115,10 @@ public abstract class GameObject implements Collision{
 
     public void setDrawY(int drawY) {
         this.drawY = drawY;
+    }
+
+    public void destroy(){
+        CollisionController.getInstance().unregister(this);
     }
 
     public boolean intersects(GameObject gameObject){

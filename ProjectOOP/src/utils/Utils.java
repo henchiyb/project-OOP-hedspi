@@ -71,4 +71,18 @@ public class Utils {
         }
         return imageVector;
     }
+
+    public static BufferedImage setSize(BufferedImage sbi, int w, int h) {
+
+        if (sbi != null) {
+            Image tmp = sbi.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+            BufferedImage dbi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            dbi.getGraphics().drawImage(tmp, 0, 0, null);
+            return dbi;
+        }
+        return null;
+    }
+    public static BufferedImage setSize(BufferedImage sbi, Dimension size) {
+        return setSize(sbi, size.width, size.height);
+    }
 }

@@ -14,8 +14,6 @@ import java.awt.*;
 public class SingleController implements BaseController {
     protected GameObject gameObject;
     protected View view;
-    protected boolean isAlive = true;
-
 
     public SingleController() {
     }
@@ -45,6 +43,6 @@ public class SingleController implements BaseController {
     }
 
     public boolean isAlive(){
-        return isAlive;
+        return gameObject.isAlive();
     }
 }

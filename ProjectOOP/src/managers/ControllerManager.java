@@ -1,6 +1,7 @@
 package managers;
 
 import controllers.BaseController;
+import controllers.CollisionController;
 import controllers.SingleController;
 import controllers.SkillCharacterController;
 
@@ -22,11 +23,17 @@ public class ControllerManager implements BaseController{
         return skillCharacterControllerArrayList;
     }
 
-    public ControllerManager(ArrayList<SingleController> controllerArrayList) {
-        this.controllerArrayList = controllerArrayList;
+    public ControllerManager() {
+        controllerArrayList = new ArrayList<>();
+        skillCharacterControllerArrayList = new ArrayList<>();
     }
 
-    public ControllerManager() {
+    public void add(SingleController controller){
+        controllerArrayList.add(controller);
+    }
+
+    public void remove(SingleController controller){
+        controllerArrayList.remove(controller);
     }
 
     public ArrayList<SingleController> getControllerArrayList() {
@@ -38,12 +45,22 @@ public class ControllerManager implements BaseController{
         for (int i = 0; i < skillCharacterControllerArrayList.size(); i++){
             skillCharacterControllerArrayList.get(i).run();
         }
+        for (int i = 0; i < controllerArrayList.size(); i++){
+            controllerArrayList.get(i).run();
+            if(!controllerArrayList.get(i).isAlive()){
+                remove(controllerArrayList.get(i));
+            }
+        }
     }
 
     @Override
     public void draw(Graphics g) {
         for (int i = 0; i < skillCharacterControllerArrayList.size(); i++){
             skillCharacterControllerArrayList.get(i).draw(g);
+        }
+
+        for (int i = 0; i < controllerArrayList.size(); i++){
+            controllerArrayList.get(i).draw(g);
         }
     }
 }

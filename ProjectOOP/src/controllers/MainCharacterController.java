@@ -3,10 +3,12 @@ package controllers;
 import game.GameConfig;
 import game.ResourceMap;
 import managers.ControllerManager;
+import managers.SceneManager;
 import models.CharacterSkill;
 import models.CharacterState;
 import models.GameObject;
 import models.MainCharacter;
+import scenes.ActionType;
 import utils.Utils;
 import views.Animation;
 import views.SingleView;
@@ -17,14 +19,20 @@ import java.util.ArrayList;
 /**
  * Created by Nhan on 3/7/2017.
  */
-public class MainCharacterController extends SingleController {
+public class MainCharacterController extends CharacterController {
     private MainCharacter mainCharacter = (MainCharacter) this.gameObject;
     private ArrayList<SkillCharacterController> skillCharacterControllerArrayList
             = ControllerManager.getSkillCharacterControllerArrayList();
+    private int countTimeStunNormal = 0;
+    private int countTimeFall = 0;
+    private int healthBarWidth = GameConfig.BAR_WIDTH;
+    private int healManaBarWidth = GameConfig.BAR_WIDTH;
 
-    public MainCharacterController(GameObject gameObject) {
+    private MainCharacterController(GameObject gameObject) {
         super(gameObject);
     }
+
+    public static MainCharacterController mainCharacterController = new MainCharacterController(MainCharacter.mainCharacter);
 
     private Animation animationDavisWalkingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_WALKING),
             GameConfig.WALKING_FRAME_RATE);
@@ -38,17 +46,13 @@ public class MainCharacterController extends SingleController {
             GameConfig.STANDING_FRAME_RATE);
     private Animation animationDavisStandingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_STANDING),
             GameConfig.STANDING_FRAME_RATE);
-    private Animation animationDavisNormalAttack0 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_0,
-            GameConfig.ATTACKING_FRAME_RATE);
-    private Animation animationDavisNormalAttack1 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_1,
-            GameConfig.ATTACKING_FRAME_RATE);
-    private Animation animationDavisNormalAttack2 = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
+    private Animation animationDavisNormalAttack = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
             GameConfig.ATTACKING_FRAME_RATE);
     private Animation animationDavisJumping = new Animation(ResourceMap.DAVIS_JUMPING,
             GameConfig.JUMPING_FRAME_RATE);
     private Animation animationDavisShooting = new Animation(ResourceMap.DAVIS_SHOOTING,
             GameConfig.ATTACKING_FRAME_RATE);
-    private Animation animationDavisFalling = new Animation(ResourceMap.DAVIS_SHOOTING,
+    private Animation animationDavisFalling = new Animation(ResourceMap.DAVIS_FALLING_BEHIND,
             GameConfig.ATTACKING_FRAME_RATE);
     private SingleView singleViewJumpingLeft = new SingleView(Utils.flipImage(
             Utils.loadImage("res/davis_jumping_01.png")));
@@ -62,97 +66,57 @@ public class MainCharacterController extends SingleController {
     private SingleView singleViewStunNormal1 = new SingleView(Utils.loadImage("res/davis_jumping_01.png"));
     private SingleView singleViewStunNormal2 = new SingleView(Utils.loadImage("res/davis_jumping_01.png"));
 
-
-    private int countTimeJumping = 0;
-    private int countTimeAttackAnimation = 0;
-    private int countTimeDefendAnimation = 0;
     @Override
     public void run() {
+        super.run();
+        healthBarWidth = mainCharacter.getHealth() / mainCharacter.getMaxHealth() * GameConfig.BAR_WIDTH;
+        healManaBarWidth = mainCharacter.getMana() / mainCharacter.getMaxMana() * GameConfig.BAR_WIDTH;
         switch (mainCharacter.getCharacterState()) {
-            case STANDING:
-                break;
-            case WALKING_LEFT:
-                mainCharacter.walkLeft();
-                break;
-            case WALKING_RIGHT:
-                mainCharacter.walkRight();
-                break;
-            case WALKING_DOWN:
-                mainCharacter.walkDown();
-                break;
-            case WALKING_UP:
-                mainCharacter.walkUp();
-                break;
-            case RUNNING_LEFT:
-                mainCharacter.runLeft();
-                break;
-            case RUNNING_RIGHT:
-                mainCharacter.runRight();
-                break;
-            case ATTACKING_NORMAL:
-                mainCharacter.setAttack(true);
-                countTimeAttackAnimation++;
-                if(countTimeAttackAnimation < 15){
-                    mainCharacter.setAttack(false);
-                } else {
-                    mainCharacter.setAttack(true);
-                    countTimeAttackAnimation = 0;
-                }
-                break;
-            case ATTACKING_HARD:
-//                mainCharacter.runRight();
-                break;
-            case SKILL_SHOOTING:
+            case  SKILL_SHOOTING:
+                SceneManager.getInstance().sceneAction(ActionType.DETACH);
                 if (animationDavisShooting.isAnimationEnd()) {
                     animationDavisShooting.setAnimationEnd(false);
                     skillCharacterControllerArrayList.add(new SkillCharacterController(
-                            new CharacterSkill(mainCharacter.getX() + mainCharacter.getHeight(),
-                                    mainCharacter.getY() + (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2,
-                                    mainCharacter.getZ())));
+                            new CharacterSkill(mainCharacter.getX() + mainCharacter.getHeight(), mainCharacter.getY(),
+                                    mainCharacter.getZ() + (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2)));
                     mainCharacter.setCharacterState(CharacterState.STANDING);
+                    SceneManager.getInstance().sceneAction(ActionType.ATTACH);
                 }
                 break;
-            case JUMPING:
-                handleJumping(CharacterState.JUMPING);
+            case STUN_NORMAL_1:
+            case STUN_NORMAL_2:
+                countTimeStunNormal++;
+                SceneManager.getInstance().sceneAction(ActionType.DETACH);
+                if (countTimeStunNormal > TIME_STUN) {
+                    countTimeStunNormal = 0;
+                    SceneManager.getInstance().sceneAction(ActionType.ATTACH);
+                }
                 break;
-            case JUMPING_AT_LEFT:
-                handleJumping(CharacterState.JUMPING_AT_LEFT);
-                break;
-            case JUMPING_AT_RIGHT:
-                handleJumping(CharacterState.JUMPING_AT_RIGHT);
-                break;
-            case DEFENDING:
-                countTimeDefendAnimation++;
-                if (countTimeDefendAnimation > 20){
-                    mainCharacter.setCharacterState(CharacterState.STANDING);
-                    countTimeDefendAnimation = 0;
+            case FALL:
+                countTimeFall++;
+                if (countTimeFall == 1) {
+                    SceneManager.getInstance().sceneAction(ActionType.DETACH);
+                }
+                if (countTimeFall > TIME_FALL) {
+                    countTimeFall = 0;
+                    SceneManager.getInstance().sceneAction(ActionType.ATTACH);
                 }
                 break;
         }
     }
 
-    private void handleJumping(CharacterState characterState){
-        countTimeJumping++;
-        if(countTimeJumping == 1) {
-            mainCharacter.setY0(mainCharacter.getY());
-            mainCharacter.setVelocityY(GameConfig.JUMPING_SPEED_Y);
-            mainCharacter.setVelocityX(GameConfig.JUMPING_SPEED_X);
-        }
-        if (countTimeJumping < 43){
-            if (characterState == CharacterState.JUMPING) {
-                mainCharacter.jump(countTimeJumping * 0.017);
-            } else if (characterState == CharacterState.JUMPING_AT_LEFT){
-                mainCharacter.jumpAtLeft(countTimeJumping * 0.017);
-            } else if (characterState == CharacterState.JUMPING_AT_RIGHT){
-                mainCharacter.jumpAtRight(countTimeJumping * 0.017);
-            }
-        } else {
-            countTimeJumping = 0;
-            mainCharacter.setCharacterState(CharacterState.STANDING);
-        }
-    }
     @Override
     public void draw(Graphics g) {
+        //Health bar
+        g.setColor(Color.RED);
+        g.fillRect(20, 80, healthBarWidth, GameConfig.BAR_HEIGHT);
+        g.setColor(Color.BLACK);
+        g.drawRect(20, 80, healthBarWidth, GameConfig.BAR_HEIGHT);
+        //Mana bar
+        g.setColor(Color.BLUE);
+        g.fillRect(20, 110, healthBarWidth, GameConfig.BAR_HEIGHT);
+        g.setColor(Color.BLACK);
+        g.drawRect(20, 110, healthBarWidth, GameConfig.BAR_HEIGHT);
         switch (mainCharacter.getCharacterState()){
             case STANDING:
                 resetAnimation();
@@ -186,26 +150,10 @@ public class MainCharacterController extends SingleController {
                 this.view = animationDavisRunningRight;
                 break;
             case ATTACKING_NORMAL:
-                this.view = animationDavisNormalAttack2;
-                if (animationDavisNormalAttack2.isAnimationEnd()){
-                    animationDavisNormalAttack2.setAnimationEnd(false);
+                this.view = animationDavisNormalAttack;
+                if (animationDavisNormalAttack.isAnimationEnd()){
+                    animationDavisNormalAttack.setAnimationEnd(false);
                     mainCharacter.setCharacterState(CharacterState.STANDING);
-                }
-                break;
-            case ATTACKING_HARD:
-                this.view = animationDavisNormalAttack0;
-                if (animationDavisNormalAttack0.isAnimationEnd()){
-                    this.view = animationDavisNormalAttack1;
-                    if (animationDavisNormalAttack1.isAnimationEnd()){
-                        this.view = animationDavisNormalAttack2;
-                        if (animationDavisNormalAttack2.isAnimationEnd()){
-                            mainCharacter.setAttack(false);
-                            animationDavisNormalAttack0.setAnimationEnd(false);
-                            animationDavisNormalAttack1.setAnimationEnd(false);
-                            animationDavisNormalAttack2.setAnimationEnd(false);
-                            mainCharacter.setCharacterState(CharacterState.STANDING);
-                        }
-                    }
                 }
                 break;
             case JUMPING:
@@ -238,12 +186,10 @@ public class MainCharacterController extends SingleController {
     }
 
     public void resetAnimation(){
-        animationDavisNormalAttack0.setImageCount(0);
-        animationDavisNormalAttack1.setImageCount(0);
-        animationDavisNormalAttack2.setImageCount(0);
-        animationDavisWalkingLeft.setImageCount(0);
-        animationDavisWalkingRight.setImageCount(0);
-        animationDavisJumping.setImageCount(0);
+        animationDavisNormalAttack.resetAnimation(0);
+        animationDavisWalkingLeft.resetAnimation(0);
+        animationDavisWalkingRight.resetAnimation(0);
+        animationDavisJumping.resetAnimation(0);
     }
     public MainCharacter getMainCharacter() {
         return mainCharacter;

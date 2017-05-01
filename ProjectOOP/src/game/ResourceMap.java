@@ -10,6 +10,8 @@ public class ResourceMap {
             "res/davis_standing_2.png"};
     public static final String[] DAVIS_RUNNING = {"res/davis_running_3.png", "res/davis_running_2.png",
             "res/davis_running_1.png"};
+    public static final String[] DAVIS_FALLING_BEHIND = {"res/davis_fall_behind_0.png", "res/davis_fall_behind_1.png",
+            "res/davis_fall_behind_2.png"};
     public static final String[] DAVIS_NORMAL_ATTACK_0 = {"res/davis_normal_attack_0.png",
             "res/davis_normal_attack_1.png", "res/davis_normal_attack_2.png", "res/davis_normal_attack_3.png"};
     public static final String[] DAVIS_NORMAL_ATTACK_1 = {"res/davis_normal_attack_4.png",

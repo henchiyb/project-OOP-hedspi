@@ -22,12 +22,13 @@ public class CollisionController {
         collisionsList = new ArrayList<>();
     }
 
-    public void add(Collision collision){
+    public void register(Collision collision){
         collisionsList.add(collision);
     }
 
-    public void remove(Collision collision){
+    public void unregister(Collision collision){
         collisionsList.remove(collision);
+        System.out.println("REMOVED " + collisionsList.size());
     }
 
     public void checkCollide(){

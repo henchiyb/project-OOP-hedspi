@@ -1,22 +1,23 @@
 package game;
 
-import scenes.PlayScene;
+import managers.SceneManager;
+import scenes.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Created by Nhan on 2/28/2017.
  */
-public class GameWindow extends Frame implements Runnable{
+public class GameWindow extends Frame implements Runnable, SceneListener{
     private static final int SCREEN_WIDTH = 768;
     private static final int SCREEN_HEIGHT = 600;
     private BufferedImage backBuffer;
     private Graphics backGraphic;
-    private PlayScene playScene;
+    private GameScene gameScene;
 
     public GameWindow(){
         setVisible(true);
@@ -27,8 +28,14 @@ public class GameWindow extends Frame implements Runnable{
                 System.exit(0);
             }
         });
-        playScene = new PlayScene();
-        this.addKeyListener(playScene);
+        SceneManager.getInstance().register(this);
+        try {
+            gameScene = new MenuScene(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.addKeyListener(gameScene);
+        this.addMouseListener((MenuScene) gameScene);
         backBuffer = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_BGR);
         backGraphic = backBuffer.getGraphics();
     }
@@ -42,14 +49,57 @@ public class GameWindow extends Frame implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            playScene.run();
+            gameScene.run();
         }
 
     }
 
     @Override
     public void update(Graphics g) {
-       playScene.update(backGraphic);
+       gameScene.update(backGraphic);
        g.drawImage(backBuffer, 0, 0, null);
+    }
+
+    @Override
+    public void sceneAction(ActionType actionType) {
+        switch (actionType){
+            case MENU_SCENE:
+                try {
+                    attach(new MenuScene(this));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case PLAY_STAGE_1:
+                attach(new PlayScene());
+                break;
+            case PLAY_STAGE_2:
+                attach(new PlayScene2());
+                break;
+            case ATTACH:
+                attach(gameScene);
+                break;
+            case DETACH:
+                detach();
+                break;
+        }
+    }
+
+    private void detach(){
+        if(gameScene != null){
+            if(gameScene.getActionType() == ActionType.MENU_SCENE) {
+                removeMouseListener((MenuScene) gameScene);
+            }
+            removeKeyListener(gameScene);
+        }
+    }
+
+    private void attach(GameScene newScene){
+        detach();
+        gameScene = newScene;
+        if(gameScene.getActionType() == ActionType.MENU_SCENE) {
+            addMouseListener((MenuScene) gameScene);
+        }
+        addKeyListener(gameScene);
     }
 }

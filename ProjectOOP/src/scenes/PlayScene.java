@@ -1,61 +1,56 @@
 package scenes;
 
-import controllers.BackgroundController;
-import controllers.CollisionController;
-import controllers.MainCharacterController;
-import controllers.RobotController;
+import controllers.*;
 import game.GameConfig;
 import managers.ControllerManager;
+import managers.EnemyManager;
+import managers.SceneManager;
 import models.*;
 import utils.Utils;
 import views.SingleView;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Stack;
 
 /**
  * Created by Nhan on 3/7/2017.
  */
 public class PlayScene extends GameScene{
-    private MainCharacterController mainCharacterController;
     private Stack<Integer> stackControlAction;
     private Stack<Integer> stackCheckPressed;
     private MainCharacter mainCharacter;
-    private BufferedImage backgroundImage;
-    private BackgroundController backgroundController;
-    private ControllerManager controllerManager;
-    private RobotController robotController;
+    protected BackgroundController backgroundController;
+    protected ControllerManager controllerManager;
+    protected EnemyManager enemyManager;
+
     public PlayScene(){
-        mainCharacterController = new MainCharacterController(new MainCharacter(0, 300, 0, 80, 80));
-        mainCharacter = mainCharacterController.getMainCharacter();
+        this.actionType = ActionType.PLAY_STAGE_1;
+        controllerManager = new ControllerManager();
+        controllerManager.add(MainCharacterController.mainCharacterController);
+        mainCharacter = MainCharacter.mainCharacter;
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();
-        backgroundImage = Utils.loadImage("res/background.png");
+        BufferedImage backgroundImage = Utils.loadImage("res/background.png");
         backgroundController = new BackgroundController(new Background(0, 0, 0), new SingleView(backgroundImage));
-        controllerManager = new ControllerManager();
+        enemyManager = new EnemyManager(5, 3);
 
-        robotController = new RobotController(new models.Robot(600,300,0));
-        robotController.setMainCharacter(mainCharacter);
     }
     @Override
     public void update(Graphics g) {
-//        g.drawImage(backgroundImage, 0, 0, null);
         backgroundController.draw(g);
-        mainCharacterController.draw(g);
-        robotController.draw(g);
         controllerManager.draw(g);
+        enemyManager.draw(g);
     }
 
     private int popStackCount = 0;
 
     @Override
     public void run() {
-        mainCharacterController.run();
-        robotController.run();
         backgroundController.run();
+        enemyManager.run();
         popStackCount++;
         if (popStackCount == GameConfig.POP_STACK_TIME){
             popStackCount = 0;
@@ -68,15 +63,10 @@ public class PlayScene extends GameScene{
             int c = stackControlAction.pop();
             System.out.println(a + " " + b + " " + c);
             System.out.println(KeyEvent.VK_K + "---" + KeyEvent.VK_D + "---" + KeyEvent.VK_J);
-            if (a == KeyEvent.VK_J &&
+            if (a == KeyEvent.VK_K &&
                     b == KeyEvent.VK_D &&
-                    c == KeyEvent.VK_K) {
-                mainCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
-                System.out.println(mainCharacter.getCharacterState() + "");
-            } else if (a == KeyEvent.VK_J &&
-                    b == KeyEvent.VK_J &&
                     c == KeyEvent.VK_J) {
-                mainCharacter.setCharacterState(CharacterState.ATTACKING_HARD);
+                mainCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
                 System.out.println(mainCharacter.getCharacterState() + "");
             } else if (a == KeyEvent.VK_A &&
                     b == KeyEvent.VK_A) {
@@ -100,7 +90,6 @@ public class PlayScene extends GameScene{
     private void addKeyCodeIntoStack(Integer keyEvent){
             stackControlAction.add(keyEvent);
     }
-    private int count = 0;
     @Override
     public void keyPressed(KeyEvent e) {
         if (!stackCheckPressed.contains(e.getKeyCode())) {
@@ -140,8 +129,8 @@ public class PlayScene extends GameScene{
                     addKeyCodeIntoStack(KeyEvent.VK_L);
                     mainCharacter.setCharacterState(CharacterState.JUMPING);
                     break;
-                default:
-//                mainCharacter.setCharacterState(CharacterState.STANDING);
+                case KeyEvent.VK_SPACE:
+                    SceneManager.getInstance().sceneAction(ActionType.PLAY_STAGE_2);
                     break;
             }
         }
@@ -152,7 +141,6 @@ public class PlayScene extends GameScene{
         if (mainCharacter.getCharacterState() != CharacterState.RUNNING_LEFT &&
                 mainCharacter.getCharacterState() != CharacterState.RUNNING_RIGHT
                 && mainCharacter.getCharacterState() != CharacterState.ATTACKING_NORMAL
-                && mainCharacter.getCharacterState() != CharacterState.ATTACKING_HARD
                 && mainCharacter.getCharacterState() != CharacterState.SKILL_SHOOTING
                 && mainCharacter.getCharacterState() != CharacterState.JUMPING
                 && mainCharacter.getCharacterState() != CharacterState.DEFENDING){
