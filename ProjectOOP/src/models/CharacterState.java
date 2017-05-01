@@ -20,4 +20,5 @@ public enum CharacterState {
     STUN_NORMAL_1,
     STUN_NORMAL_2,
     FALL,
+    DEAD
 }

@@ -36,7 +36,6 @@ public class PlayScene extends GameScene{
         BufferedImage backgroundImage = Utils.loadImage("res/background.png");
         backgroundController = new BackgroundController(new Background(0, 0, 0), new SingleView(backgroundImage));
         enemyManager = new EnemyManager(5, 3);
-
     }
     @Override
     public void update(Graphics g) {

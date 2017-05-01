@@ -25,8 +25,6 @@ public class MainCharacterController extends CharacterController {
             = ControllerManager.getSkillCharacterControllerArrayList();
     private int countTimeStunNormal = 0;
     private int countTimeFall = 0;
-    private int healthBarWidth = GameConfig.BAR_WIDTH;
-    private int healManaBarWidth = GameConfig.BAR_WIDTH;
 
     private MainCharacterController(GameObject gameObject) {
         super(gameObject);
@@ -69,8 +67,6 @@ public class MainCharacterController extends CharacterController {
     @Override
     public void run() {
         super.run();
-        healthBarWidth = mainCharacter.getHealth() / mainCharacter.getMaxHealth() * GameConfig.BAR_WIDTH;
-        healManaBarWidth = mainCharacter.getMana() / mainCharacter.getMaxMana() * GameConfig.BAR_WIDTH;
         switch (mainCharacter.getCharacterState()) {
             case  SKILL_SHOOTING:
                 SceneManager.getInstance().sceneAction(ActionType.DETACH);
@@ -109,14 +105,14 @@ public class MainCharacterController extends CharacterController {
     public void draw(Graphics g) {
         //Health bar
         g.setColor(Color.RED);
-        g.fillRect(20, 80, healthBarWidth, GameConfig.BAR_HEIGHT);
+        g.fillRect(20, 80, mainCharacter.getHealthBarWidth(), GameConfig.BAR_HEIGHT);
         g.setColor(Color.BLACK);
-        g.drawRect(20, 80, healthBarWidth, GameConfig.BAR_HEIGHT);
+        g.drawRect(20, 80, GameConfig.BAR_WIDTH, GameConfig.BAR_HEIGHT);
         //Mana bar
         g.setColor(Color.BLUE);
-        g.fillRect(20, 110, healthBarWidth, GameConfig.BAR_HEIGHT);
+        g.fillRect(20, 110, mainCharacter.getManaBarWidth(), GameConfig.BAR_HEIGHT);
         g.setColor(Color.BLACK);
-        g.drawRect(20, 110, healthBarWidth, GameConfig.BAR_HEIGHT);
+        g.drawRect(20, 110, GameConfig.BAR_WIDTH, GameConfig.BAR_HEIGHT);
         switch (mainCharacter.getCharacterState()){
             case STANDING:
                 resetAnimation();

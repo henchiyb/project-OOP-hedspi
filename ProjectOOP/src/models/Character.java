@@ -63,13 +63,6 @@ public class Character extends GameObject {
         this.invulnerable = invulnerable;
     }
 
-    public void getHit(int damage){
-        this.health -= damage;
-        if (this.health < 0){
-            isAlive = false;
-        }
-    }
-
     public int getDamage() {
         return damage;
     }
@@ -88,6 +81,12 @@ public class Character extends GameObject {
         this.mana = mana;
         this.damage = damage;
         stackControlAction = new Stack<>();
+    }
+    public void getHit(int damage){
+        this.health -= damage;
+        if (this.health < 0){
+            isAlive = false;
+        }
     }
 
     public void walkLeft() {

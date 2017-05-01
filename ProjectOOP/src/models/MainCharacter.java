@@ -2,6 +2,7 @@ package models;
 
 
 import controllers.CollisionController;
+import game.GameConfig;
 
 import java.util.Stack;
 
@@ -10,6 +11,9 @@ import java.util.Stack;
  */
 public class MainCharacter extends Character{
     private Stack<Integer> stackControlAction;
+    private int healthBarWidth;
+    private int manaBarWidth;
+
     public Stack<Integer> getStackControlAction() {
         return stackControlAction;
     }
@@ -38,7 +42,26 @@ public class MainCharacter extends Character{
         this.maxMana = maxMana;
     }
 
+    public void updateBarWidth(){
+        healthBarWidth = mainCharacter.getHealth() * GameConfig.BAR_WIDTH / maxHealth;
+        manaBarWidth = mainCharacter.getMana() * GameConfig.BAR_WIDTH / maxMana;
+    }
+
+    public int getHealthBarWidth() {
+        return healthBarWidth;
+    }
+
+    public int getManaBarWidth() {
+        return manaBarWidth;
+    }
+
     public static MainCharacter mainCharacter = new MainCharacter(0, 0, 300, 80, 80);
+
+    @Override
+    public void getHit(int damage){
+        super.getHit(damage);
+        updateBarWidth();
+    }
 
     @Override
     public GameObject getGameObject() {
