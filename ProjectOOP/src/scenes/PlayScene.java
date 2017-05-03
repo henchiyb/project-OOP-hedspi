@@ -21,14 +21,19 @@ public class PlayScene extends GameScene{
     private Stack<Integer> stackControlAction;
     private Stack<Integer> stackCheckPressed;
     private MainCharacter mainCharacter;
+
     protected BackgroundController backgroundController;
     protected ControllerManager controllerManager;
     protected EnemyManager enemyManager;
+    public static int mainType = 1;
+    public static MainCharacterController mainCharacterController = null;
 
     public PlayScene(){
         this.actionType = ActionType.PLAY_STAGE_1;
-        controllerManager = new ControllerManager();
-        controllerManager.add(MainCharacterController.mainCharacterController);
+        controllerManager = ControllerManager.instance;
+        if (mainCharacterController == null)
+            mainCharacterController = new MainCharacterController(MainCharacter.mainCharacter);
+        controllerManager.add(mainCharacterController);
         mainCharacter = MainCharacter.mainCharacter;
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();
@@ -65,7 +70,8 @@ public class PlayScene extends GameScene{
             if (a == KeyEvent.VK_K &&
                     b == KeyEvent.VK_D &&
                     c == KeyEvent.VK_J) {
-                mainCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
+                if (mainCharacter.getMana() > 0)
+                    mainCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
                 System.out.println(mainCharacter.getCharacterState() + "");
             } else if (a == KeyEvent.VK_A &&
                     b == KeyEvent.VK_A) {

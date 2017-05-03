@@ -2,7 +2,9 @@ package models;
 
 
 import controllers.CollisionController;
+import controllers.SkillCharacterController;
 import game.GameConfig;
+import managers.ControllerManager;
 
 import java.util.Stack;
 
@@ -13,6 +15,8 @@ public class MainCharacter extends Character{
     private Stack<Integer> stackControlAction;
     private int healthBarWidth = GameConfig.BAR_WIDTH;
     private int manaBarWidth = GameConfig.BAR_WIDTH;
+    private int mainExp = 0;
+    private int mainLevel = 1;
 
     public Stack<Integer> getStackControlAction() {
         return stackControlAction;
@@ -24,6 +28,7 @@ public class MainCharacter extends Character{
         stackControlAction  = new Stack<>();
         this.setLeft(true);
         CollisionController.getInstance().register(this);
+
     }
 
     public int getMaxHealth() {
@@ -42,8 +47,36 @@ public class MainCharacter extends Character{
         this.maxMana = maxMana;
     }
 
-    public void updateBarWidth(){
+    public int getMainExp() {
+        return mainExp;
+    }
+
+    public void setMainExp(int mainExp) {
+        this.mainExp = mainExp;
+    }
+
+    public void gainExp(int mainExp) {
+        this.mainExp += mainExp;
+    }
+
+    public int getMainLevel() {
+        return mainLevel;
+    }
+
+    public void levelUp() {
+        this.mainLevel++;
+        this.maxHealth += 20;
+        this.maxMana += 10;
+        this.setHealth(maxHealth);
+        this.setMana(maxMana);
+        this.damageUp(1);
+    }
+
+    public void updateHealthBarWidth(){
         healthBarWidth = mainCharacter.getHealth() * GameConfig.BAR_WIDTH / maxHealth;
+    }
+
+    public void updateManaBarWidth(){
         manaBarWidth = mainCharacter.getMana() * GameConfig.BAR_WIDTH / maxMana;
     }
 
@@ -61,7 +94,7 @@ public class MainCharacter extends Character{
     @Override
     public void getHit(int damage){
         super.getHit(damage);
-        updateBarWidth();
+        updateHealthBarWidth();
     }
 
     @Override

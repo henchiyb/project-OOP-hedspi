@@ -16,6 +16,7 @@ public class ControllerManager implements BaseController{
     private ArrayList<SingleController>  controllerArrayList;
     private static ArrayList<SkillCharacterController> skillMainList;
     private static ArrayList<SkillCharacterController>  skillEnemyList;
+    public static ControllerManager instance = new ControllerManager();
 
     public static ArrayList<SkillCharacterController> getSkillMainList() {
         if(skillMainList == null)

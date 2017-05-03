@@ -5,8 +5,11 @@ package game;
  */
 public class GameConfig
 {
-    public static final int SKILL_DAVIS_SPEED = 5;
+    public static final int SCREEN_WIDTH = 768;
+    public static final int SCREEN_HEIGHT = 600;
+    public static final int MAX_EXP = 10;
 
+    public static final int SKILL_DAVIS_SPEED = 5;
     public static int WALKING_SPEED = 2;
     public static int RUNNING_SPEED = 4;
     public static int JUMPING_SPEED_Y = -45;
@@ -34,5 +37,5 @@ public class GameConfig
     public static int POP_STACK_DURATION = 100;
     public static final int ENEMY_SHOOTING_DURATION = 200;
     public static final int ENEMY_ATTACK_DURATION = 100;
-
+    public static final int REGEN_MANA_DURATION = 60;
 }

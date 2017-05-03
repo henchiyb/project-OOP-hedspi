@@ -1,6 +1,8 @@
 package models;
 
 import controllers.CollisionController;
+import controllers.SkillCharacterController;
+import managers.ControllerManager;
 
 /**
  * Created by Nhan on 4/27/2017.

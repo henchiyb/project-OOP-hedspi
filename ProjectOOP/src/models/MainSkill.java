@@ -15,7 +15,8 @@ public class MainSkill extends CharacterSkill {
     @Override
     public void onCollide(Collision otherCollision) {
         if (otherCollision instanceof EnemyCharacter) {
-            this.setAlive(false);
+            if(!((EnemyCharacter) otherCollision).isInvulnerable())
+                this.setAlive(false);
         }
     }
 }

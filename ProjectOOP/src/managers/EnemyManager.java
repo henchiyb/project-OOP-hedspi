@@ -41,6 +41,7 @@ public class EnemyManager implements BaseController{
             enemyControllerList.add(enemyController);
         }
     }
+    synchronized
     @Override
     public void run() {
         for (int i = 0; i < enemyControllerList.size(); i++){

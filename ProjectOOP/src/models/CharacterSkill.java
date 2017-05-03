@@ -29,10 +29,14 @@ public class CharacterSkill extends GameObject {
 
     public void moveLeft(){
         this.x -= GameConfig.BALL_FLYING_SPEED;
+        if (this.x < 0)
+            isAlive = false;
     }
 
     public void moveRight(){
         this.x += GameConfig.BALL_FLYING_SPEED;
+        if (this.x > GameConfig.SCREEN_WIDTH)
+            isAlive = false;
     }
 
 

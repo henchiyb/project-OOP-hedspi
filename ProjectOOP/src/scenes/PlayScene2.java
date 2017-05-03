@@ -20,8 +20,9 @@ import java.util.Stack;
 public class PlayScene2 extends PlayScene {
     public PlayScene2(){
         this.actionType = ActionType.PLAY_STAGE_2;
-        controllerManager = new ControllerManager();
-        controllerManager.add(MainCharacterController.mainCharacterController);
+//        controllerManager = ControllerManager.instance;
+//        if (PlayScene.mainCharacterController != null)
+//            controllerManager.add(mainCharacterController);
         BufferedImage backgroundImage = Utils.loadImage("res/menu_scene.png");
         backgroundController = new BackgroundController(new Background(0, 0, 0), new SingleView(backgroundImage));
         enemyManager = new EnemyManager(0, 3);

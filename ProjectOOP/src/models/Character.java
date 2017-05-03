@@ -1,6 +1,7 @@
 package models;
 
 import controllers.CollisionController;
+import controllers.SkillCharacterController;
 import game.GameConfig;
 
 import java.util.Stack;
@@ -43,6 +44,11 @@ public class Character extends GameObject {
         this.mana = mana;
     }
 
+    public void setManaChange(int mana) {
+        this.mana += mana;
+    }
+
+
     public void setY0(int y0) {
         this.y0 = y0;
     }
@@ -71,6 +77,10 @@ public class Character extends GameObject {
         this.damage = damage;
     }
 
+    public void damageUp(int damage){
+        this.damage += damage;
+    }
+
     public Stack<Integer> getStackControlAction() {
         return stackControlAction;
     }
@@ -92,21 +102,38 @@ public class Character extends GameObject {
     }
 
     public void walkLeft() {
-        this.x -= GameConfig.WALKING_SPEED;
+        if (this.x > 0)
+            this.x -= GameConfig.WALKING_SPEED;
+        else
+            this.x = 0;
     }
 
     public void walkRight() {
-        this.x += GameConfig.WALKING_SPEED;
+        if (this.x < GameConfig.SCREEN_WIDTH - this.getWidth())
+            this.x += GameConfig.WALKING_SPEED;
+        else
+            this.x = GameConfig.SCREEN_WIDTH - this.getWidth();
+
     }
 
     public void walkUp() {
-        this.drawY -= GameConfig.WALKING_SPEED;
-        this.z -= 2;
+        if (this.z > 0) {
+            this.drawY -= GameConfig.WALKING_SPEED;
+            this.z -= GameConfig.WALKING_SPEED;
+        } else {
+            this.drawY = 0;
+            this.z = 0;
+        }
     }
 
     public void walkDown() {
-        this.drawY += GameConfig.WALKING_SPEED;
-        this.z += 2;
+        if (this.z < GameConfig.SCREEN_HEIGHT - this.getHeight()) {
+            this.drawY += GameConfig.WALKING_SPEED;
+            this.z += GameConfig.WALKING_SPEED;
+        } else {
+            this.drawY = GameConfig.SCREEN_HEIGHT - this.getHeight();
+            this.z = GameConfig.SCREEN_HEIGHT - this.getHeight();
+        }
     }
 
     public void runLeft() {

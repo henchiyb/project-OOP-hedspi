@@ -13,15 +13,14 @@ import java.io.IOException;
  * Created by Nhan on 2/28/2017.
  */
 public class GameWindow extends Frame implements Runnable, SceneListener{
-    private static final int SCREEN_WIDTH = 768;
-    private static final int SCREEN_HEIGHT = 600;
     private BufferedImage backBuffer;
     private Graphics backGraphic;
     private GameScene gameScene;
 
     public GameWindow(){
         setVisible(true);
-        setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        setSize(GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT);
+        setResizable(false);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -36,7 +35,7 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
         }
         this.addKeyListener(gameScene);
         this.addMouseListener((MenuScene) gameScene);
-        backBuffer = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_BGR);
+        backBuffer = new BufferedImage(GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT, BufferedImage.TYPE_INT_BGR);
         backGraphic = backBuffer.getGraphics();
     }
 

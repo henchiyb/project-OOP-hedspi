@@ -7,6 +7,8 @@ import models.CharacterState;
 import models.GameObject;
 import scenes.ActionType;
 
+import java.awt.*;
+
 /**
  * Created by Nhan on 4/27/2017.
  */
@@ -33,6 +35,7 @@ public abstract class CharacterController extends SingleController {
     public void run() {
         switch (this.character.getCharacterState()) {
             case STANDING:
+                character.setInvulnerable(false);
                 break;
             case WALKING_LEFT:
                 character.walkLeft();
@@ -101,7 +104,6 @@ public abstract class CharacterController extends SingleController {
                 }
                 if (countTimeFall > TIME_FALL){
                     countTimeFall = 0;
-                    character.setInvulnerable(false);
                     if (character.getHealth() <= 0){
                         character.setCharacterState(CharacterState.DEAD);
                     } else {
@@ -112,13 +114,26 @@ public abstract class CharacterController extends SingleController {
             case DEAD:
                 countTimeDead++;
                 if (countTimeDead > 60){
-                    System.out.println("DEAD");
                     character.destroy();
                     character.setAlive(false);
                 }
         }
     }
+
+    @Override
+    public void draw(Graphics g) {
+        int alpha = 127; // 50% transparent
+        Color myColour = new Color(128, 128, 128, alpha);
+        g.setColor(myColour);
+        g.fillOval(this.getGameObject().getX(),
+            this.getGameObject().getZ() + GameConfig.GAME_OBJECT_HEIGHT - GameConfig.GAME_OBJECT_DEPTH,
+            GameConfig.GAME_OBJECT_WIDTH,
+            GameConfig.GAME_OBJECT_DEPTH);
+        super.draw(g);
+    }
+
     private void handleJumping(CharacterState characterState){
+        character.setInvulnerable(true);
         countTimeJumping++;
         if(countTimeJumping == 1) {
             character.setY0(character.getZ());
