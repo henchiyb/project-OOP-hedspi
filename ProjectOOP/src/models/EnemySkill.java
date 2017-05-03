@@ -14,6 +14,10 @@ public class EnemySkill extends CharacterSkill {
 
     @Override
     public void onCollide(Collision otherCollision) {
-
+        if (otherCollision instanceof MainCharacter){
+            if (!((MainCharacter) otherCollision).isInvulnerable()){
+                this.setAlive(false);
+            }
+        }
     }
 }

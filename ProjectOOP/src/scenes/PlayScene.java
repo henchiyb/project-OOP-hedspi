@@ -33,7 +33,7 @@ public class PlayScene extends GameScene{
         controllerManager = ControllerManager.instance;
         if (mainCharacterController == null)
             mainCharacterController = new MainCharacterController(MainCharacter.mainCharacter);
-        controllerManager.add(mainCharacterController);
+        controllerManager.addController(mainCharacterController);
         mainCharacter = MainCharacter.mainCharacter;
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();

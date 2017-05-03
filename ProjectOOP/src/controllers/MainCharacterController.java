@@ -19,7 +19,6 @@ import java.util.ArrayList;
  */
 public class MainCharacterController extends CharacterController {
     private MainCharacter mainCharacter = (MainCharacter) this.gameObject;
-    private ArrayList<SkillCharacterController> skillMainList = ControllerManager.getSkillMainList();
     private int countTimeFall = 0;
 
     private Animation animationDavisWalkingLeft;
@@ -142,7 +141,7 @@ public class MainCharacterController extends CharacterController {
                     skillController.gameObject.setDrawY(mainCharacter.getZ() +
                             (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2);
                     skillController.gameObject.setLeft(mainCharacter.isLeft());
-                    skillMainList.add(skillController);
+                    ControllerManager.getSkillList().add(skillController);
                     mainCharacter.setManaChange(-10);
                     mainCharacter.updateManaBarWidth();
                     mainCharacter.setCharacterState(CharacterState.STANDING);

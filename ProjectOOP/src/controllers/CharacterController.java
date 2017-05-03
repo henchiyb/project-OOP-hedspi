@@ -122,8 +122,8 @@ public abstract class CharacterController extends SingleController {
 
     @Override
     public void draw(Graphics g) {
-        int alpha = 127; // 50% transparent
-        Color myColour = new Color(128, 128, 128, alpha);
+        int alpha = 80;
+        Color myColour = new Color(0, 0, 0, alpha);
         g.setColor(myColour);
         g.fillOval(this.getGameObject().getX(),
             this.getGameObject().getZ() + GameConfig.GAME_OBJECT_HEIGHT - GameConfig.GAME_OBJECT_DEPTH,

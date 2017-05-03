@@ -2,6 +2,7 @@ package controllers;
 
 import game.GameConfig;
 import game.ResourceMap;
+import managers.ControllerManager;
 import models.*;
 import scenes.PlayScene;
 import utils.Utils;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
     public class EnemyController extends CharacterController {
         private EnemyCharacter enemyCharacter = (EnemyCharacter) this.gameObject;
         private MainCharacter mainCharacter = MainCharacter.mainCharacter;
-        private int countTimeFall = 0;
         private EnemyType enemyType;
+
+        private int countTimeFall = 0;
         private int countAnimationShoot = 0;
         private int countAnimationAttack = 0;
-        private ArrayList<SkillCharacterController> listEnemyBullet;
 
         private Animation animationDavisWalkingLeft;
         private Animation animationDavisWalkingRight;
@@ -47,7 +48,6 @@ import java.util.ArrayList;
         public EnemyController(GameObject gameObject, EnemyType enemyType) {
             super(gameObject);
             this.enemyType = enemyType;
-            listEnemyBullet = new ArrayList<>();
             initView();
         }
 
@@ -131,7 +131,7 @@ import java.util.ArrayList;
                     skillController.gameObject.setLeft(enemyCharacter.isLeft());
                     skillController.gameObject.setDrawY(mainCharacter.getZ() +
                             (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2);
-                    listEnemyBullet.add(skillController);
+                    ControllerManager.getSkillList().add(skillController);
                     enemyCharacter.setCharacterState(CharacterState.STANDING);
                 }
             } else if (enemyCharacter.getCharacterState() == CharacterState.ATTACKING_NORMAL) {
@@ -211,12 +211,6 @@ import java.util.ArrayList;
                     }
                 } else {
                     enemyCharacter.setCharacterState(CharacterState.STANDING);
-                }
-            }
-            for (int i = 0; i < listEnemyBullet.size(); i++) {
-                listEnemyBullet.get(i).run();
-                if(listEnemyBullet.get(i).gameObject.getX() < 0 || listEnemyBullet.get(i).gameObject.getX() > 600){
-                    listEnemyBullet.get(i).gameObject.setAlive(false);
                 }
             }
         }
@@ -326,9 +320,6 @@ import java.util.ArrayList;
                     break;
             }
             super.draw(g);
-            for (int i = 0; i < listEnemyBullet.size(); i++) {
-                listEnemyBullet.get(i).draw(g);
-            }
         }
 
         public void resetAnimation(){
