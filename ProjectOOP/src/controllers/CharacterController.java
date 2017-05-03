@@ -23,6 +23,7 @@ public abstract class CharacterController extends SingleController {
     private int countTimeDefendAnimation = 0;
     private int countTimeStunNormal = 0;
     private int countTimeFall = 0;
+    private int countTimeDead = 0;
 
     public CharacterController(GameObject gameObject) {
         super(gameObject);
@@ -60,6 +61,7 @@ public abstract class CharacterController extends SingleController {
                     character.setAttack(true);
                     countTimeAttackAnimation = 0;
                 }
+
                 break;
             case JUMPING:
                 handleJumping(CharacterState.JUMPING);
@@ -84,10 +86,15 @@ public abstract class CharacterController extends SingleController {
                 countTimeStunNormal++;
                 if (countTimeStunNormal > TIME_STUN){
                     countTimeStunNormal = 0;
-                    character.setCharacterState(CharacterState.STANDING);
+                    if (character.getHealth() <= 0){
+                        character.setCharacterState(CharacterState.DEAD);
+                    } else {
+                        character.setCharacterState(CharacterState.STANDING);
+                    }
                 }
                 break;
-            case FALL:
+            case FALL_RIGHT:
+            case FALL_LEFT:
                 countTimeFall++;
                 if(countTimeFall == 1){
                     character.setInvulnerable(true);
@@ -95,9 +102,20 @@ public abstract class CharacterController extends SingleController {
                 if (countTimeFall > TIME_FALL){
                     countTimeFall = 0;
                     character.setInvulnerable(false);
+                    if (character.getHealth() <= 0){
+                        character.setCharacterState(CharacterState.DEAD);
+                    } else {
                     character.setCharacterState(CharacterState.STANDING);
+                    }
                 }
                 break;
+            case DEAD:
+                countTimeDead++;
+                if (countTimeDead > 60){
+                    System.out.println("DEAD");
+                    character.destroy();
+                    character.setAlive(false);
+                }
         }
     }
     private void handleJumping(CharacterState characterState){

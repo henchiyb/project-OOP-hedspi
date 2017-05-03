@@ -1,5 +1,6 @@
 package models;
 
+import controllers.CollisionController;
 import game.GameConfig;
 
 /**
@@ -8,13 +9,22 @@ import game.GameConfig;
 public class CharacterSkill extends GameObject {
     public static final int SKILL_HEIGHT = 40;
     public static final int SKILL_WIDTH = 40;
+    private int damage;
 
-    public CharacterSkill(int x, int y, int z) {
+    public CharacterSkill(int x, int y, int z, int damage) {
         super(x, y, z, SKILL_WIDTH, SKILL_HEIGHT);
+        CollisionController.getInstance().register(this);
+        this.damage = damage;
     }
 
-    public CharacterSkill(int x, int y, int z, int width, int height) {
+    public CharacterSkill(int x, int y, int z, int width, int height, int damage) {
         super(x, y, z, width, height);
+        CollisionController.getInstance().register(this);
+        this.damage = damage;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     public void moveLeft(){

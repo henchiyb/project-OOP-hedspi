@@ -19,6 +19,7 @@ public enum CharacterState {
     SKILL_SHOOTING,
     STUN_NORMAL_1,
     STUN_NORMAL_2,
-    FALL,
+    FALL_LEFT,
+    FALL_RIGHT,
     DEAD
 }

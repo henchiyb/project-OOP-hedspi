@@ -24,16 +24,27 @@ public class EnemyCharacter extends Character {
             if ( characterState == CharacterState.ATTACKING_NORMAL) {
                 if (otherCollision.getGameObject().isAttack() && !this.isInvulnerable()) {
                     this.getHit(((MainCharacter)otherCollision).getDamage());
-                    System.out.println(this.isAlive());
+                    System.out.println(this.getHealth());
                     if (this.getCharacterState() == CharacterState.STUN_NORMAL_1) {
                         this.setCharacterState(CharacterState.STUN_NORMAL_2);
                     } else if (this.getCharacterState() == CharacterState.STUN_NORMAL_2) {
-                        this.setCharacterState(CharacterState.FALL);
+                        if ((this.getGameObject()).isLeft())
+                            this.setCharacterState(CharacterState.FALL_RIGHT);
+                        else
+                            this.setCharacterState(CharacterState.FALL_LEFT);
                     } else {
                         this.setCharacterState(CharacterState.STUN_NORMAL_1);
                     }
                 }
             }
+
+        }
+        if (otherCollision instanceof MainSkill && !this.isInvulnerable()){
+            this.getHit(((CharacterSkill)otherCollision).getDamage());
+            if ((this.getGameObject()).isLeft())
+                this.setCharacterState(CharacterState.FALL_RIGHT);
+            else
+                this.setCharacterState(CharacterState.FALL_LEFT);
         }
     }
 }

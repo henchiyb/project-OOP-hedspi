@@ -45,4 +45,8 @@ public class SingleController implements BaseController {
     public boolean isAlive(){
         return gameObject.isAlive();
     }
+
+    public GameObject getGameObject() {
+        return gameObject;
+    }
 }

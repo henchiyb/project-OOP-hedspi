@@ -11,8 +11,8 @@ import java.util.Stack;
  */
 public class MainCharacter extends Character{
     private Stack<Integer> stackControlAction;
-    private int healthBarWidth;
-    private int manaBarWidth;
+    private int healthBarWidth = GameConfig.BAR_WIDTH;
+    private int manaBarWidth = GameConfig.BAR_WIDTH;
 
     public Stack<Integer> getStackControlAction() {
         return stackControlAction;
@@ -55,7 +55,8 @@ public class MainCharacter extends Character{
         return manaBarWidth;
     }
 
-    public static MainCharacter mainCharacter = new MainCharacter(0, 0, 300, 80, 80);
+    public static MainCharacter mainCharacter = new MainCharacter(0, 0, 300, GameConfig.GAME_OBJECT_WIDTH,
+            GameConfig.GAME_OBJECT_HEIGHT);
 
     @Override
     public void getHit(int damage){
@@ -70,6 +71,32 @@ public class MainCharacter extends Character{
 
     @Override
     public void onCollide(Collision otherCollision) {
-
+        if (otherCollision instanceof EnemyCharacter) {
+            CharacterState characterState = ((Character) otherCollision.getGameObject()).getCharacterState();
+            if ( characterState == CharacterState.ATTACKING_NORMAL) {
+                if (otherCollision.getGameObject().isAttack() && !this.isInvulnerable()) {
+                    this.getHit(((Character)otherCollision).getDamage());
+                    if (this.getCharacterState() == CharacterState.STUN_NORMAL_1) {
+                        this.setCharacterState(CharacterState.STUN_NORMAL_2);
+                    } else if (this.getCharacterState() == CharacterState.STUN_NORMAL_2) {
+                        if ((otherCollision.getGameObject()).isLeft())
+                            this.setCharacterState(CharacterState.FALL_LEFT);
+                        else
+                            this.setCharacterState(CharacterState.FALL_RIGHT);
+                    } else {
+                        this.setCharacterState(CharacterState.STUN_NORMAL_1);
+                    }
+                } else if (this.isInvulnerable()){
+                    ((Character) otherCollision.getGameObject()).setCharacterState(CharacterState.STANDING);
+                }
+            }
+        }
+        else if (otherCollision instanceof EnemySkill && !this.isInvulnerable()){
+            this.getHit(((CharacterSkill)otherCollision).getDamage());
+            if (!otherCollision.getGameObject().isLeft())
+                this.setCharacterState(CharacterState.FALL_RIGHT);
+            else
+                this.setCharacterState(CharacterState.FALL_LEFT);
+        }
     }
 }

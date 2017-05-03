@@ -9,7 +9,6 @@ import models.*;
 import utils.Utils;
 import views.SingleView;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -35,7 +34,8 @@ public class PlayScene extends GameScene{
         stackCheckPressed = new Stack<>();
         BufferedImage backgroundImage = Utils.loadImage("res/background.png");
         backgroundController = new BackgroundController(new Background(0, 0, 0), new SingleView(backgroundImage));
-        enemyManager = new EnemyManager(5, 3);
+//        enemyManager = new EnemyManager(1, 0);
+        enemyManager = new EnemyManager(2, 2);
     }
     @Override
     public void update(Graphics g) {
@@ -51,7 +51,7 @@ public class PlayScene extends GameScene{
         backgroundController.run();
         enemyManager.run();
         popStackCount++;
-        if (popStackCount == GameConfig.POP_STACK_TIME){
+        if (popStackCount == GameConfig.POP_STACK_DURATION){
             popStackCount = 0;
             if (!stackControlAction.empty())
                 stackControlAction.pop();
@@ -137,12 +137,17 @@ public class PlayScene extends GameScene{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (mainCharacter.getCharacterState() != CharacterState.RUNNING_LEFT &&
-                mainCharacter.getCharacterState() != CharacterState.RUNNING_RIGHT
+        if (mainCharacter.getCharacterState() != CharacterState.RUNNING_LEFT
+                && mainCharacter.getCharacterState() != CharacterState.RUNNING_RIGHT
                 && mainCharacter.getCharacterState() != CharacterState.ATTACKING_NORMAL
                 && mainCharacter.getCharacterState() != CharacterState.SKILL_SHOOTING
                 && mainCharacter.getCharacterState() != CharacterState.JUMPING
-                && mainCharacter.getCharacterState() != CharacterState.DEFENDING){
+                && mainCharacter.getCharacterState() != CharacterState.DEFENDING
+                && mainCharacter.getCharacterState() != CharacterState.STUN_NORMAL_1
+                && mainCharacter.getCharacterState() != CharacterState.STUN_NORMAL_2
+                && mainCharacter.getCharacterState() != CharacterState.FALL_LEFT
+                && mainCharacter.getCharacterState() != CharacterState.FALL_RIGHT
+                && mainCharacter.getCharacterState() != CharacterState.DEAD){
             mainCharacter.setCharacterState(CharacterState.STANDING);
         }
         stackCheckPressed = new Stack<>();

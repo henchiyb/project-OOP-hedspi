@@ -84,8 +84,10 @@ public class Character extends GameObject {
     }
     public void getHit(int damage){
         this.health -= damage;
-        if (this.health < 0){
-            isAlive = false;
+        if (this.health <= 0){
+            characterState = CharacterState.DEAD;
+            setInvulnerable(true);
+            System.out.println("is DEAD");
         }
     }
 
@@ -117,9 +119,8 @@ public class Character extends GameObject {
 
     public void jump(double time) {
         int gravity = 5;
-        System.out.println("drawY = " + drawY + " y = " + y + " y0 = " + y0);
         velocityY += gravity * time;
-        //z is space jump
+        //y is space jump
         this.y += velocityY * time;
         this.drawY += velocityY * time;
         if (this.drawY >= y0) {

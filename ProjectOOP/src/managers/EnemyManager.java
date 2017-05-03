@@ -3,6 +3,7 @@ package managers;
 import controllers.BaseController;
 import controllers.EnemyController;
 import controllers.EnemyType;
+import game.GameConfig;
 import models.EnemyCharacter;
 
 import java.awt.*;
@@ -20,14 +21,22 @@ public class EnemyManager implements BaseController{
         for (int i = 0; i < numOfEnemyFight; i++){
             int randomX = ThreadLocalRandom.current().nextInt(300, 800 + 1);
             int randomY = ThreadLocalRandom.current().nextInt(0, 600 + 1);
-            EnemyController enemyController = new EnemyController(new EnemyCharacter(randomX, 0, randomY, 80, 80),
+            EnemyController enemyController = new EnemyController(new EnemyCharacter(randomX,
+                    0,
+                    randomY,
+                    GameConfig.GAME_OBJECT_WIDTH,
+                    GameConfig.GAME_OBJECT_HEIGHT),
                     EnemyType.FIGHT);
             enemyControllerList.add(enemyController);
         }
         for (int i = 0; i < numOfEnemyShoot; i++){
             int randomX = ThreadLocalRandom.current().nextInt(300, 800 + 1);
             int randomY = ThreadLocalRandom.current().nextInt(0, 600 + 1);
-            EnemyController enemyController = new EnemyController(new EnemyCharacter(randomX, 0, randomY, 80, 80),
+            EnemyController enemyController = new EnemyController(new EnemyCharacter(randomX,
+                    0,
+                    randomY,
+                    GameConfig.GAME_OBJECT_WIDTH,
+                    GameConfig.GAME_OBJECT_HEIGHT),
                     EnemyType.SHOOT);
             enemyControllerList.add(enemyController);
         }
@@ -38,7 +47,6 @@ public class EnemyManager implements BaseController{
             EnemyController enemy = enemyControllerList.get(i);
             enemy.run();
             if (!enemy.isAlive()){
-                enemy.getEnemyCharacter().destroy();
                 enemyControllerList.remove(i);
             }
         }

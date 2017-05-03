@@ -2,7 +2,6 @@ package controllers;
 
 import game.GameConfig;
 import game.ResourceMap;
-import managers.ControllerManager;
 import models.*;
 import utils.Utils;
 import views.Animation;
@@ -16,14 +15,17 @@ import java.util.ArrayList;
  */
 public class EnemyController extends CharacterController {
     private EnemyCharacter enemyCharacter = (EnemyCharacter) this.gameObject;
-    private ArrayList<SkillCharacterController> skillCharacterControllerArrayList
-            = ControllerManager.getSkillCharacterControllerArrayList();
+    private MainCharacter mainCharacter = MainCharacter.mainCharacter;
     private int countTimeFall = 0;
     private EnemyType enemyType;
+    private int countAnimationShoot = 0;
+    private int countAnimationAttack = 0;
+    private ArrayList<SkillCharacterController> listEnemyBullet;
 
     public EnemyController(GameObject gameObject, EnemyType enemyType) {
         super(gameObject);
         this.enemyType = enemyType;
+        listEnemyBullet = new ArrayList<>();
     }
 
     private Animation animationDavisWalkingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_WALKING),
@@ -38,15 +40,17 @@ public class EnemyController extends CharacterController {
             GameConfig.STANDING_FRAME_RATE);
     private Animation animationDavisStandingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_STANDING),
             GameConfig.STANDING_FRAME_RATE);
-    private Animation animationDavisNormalAttack = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
+    private Animation animationDavisNormalAttackRight = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
+            GameConfig.ATTACKING_FRAME_RATE);
+    private Animation animationDavisNormalAttackLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_NORMAL_ATTACK_2),
             GameConfig.ATTACKING_FRAME_RATE);
     private Animation animationDavisJumping = new Animation(ResourceMap.DAVIS_JUMPING,
             GameConfig.JUMPING_FRAME_RATE);
-    private Animation animationDavisShooting = new Animation(ResourceMap.DAVIS_SHOOTING,
+    private Animation animationDavisShootingRight = new Animation(ResourceMap.DAVIS_SHOOTING,
             GameConfig.ATTACKING_FRAME_RATE);
-//    private Animation animationDavisFalling = new Animation(ResourceMap.DAVIS_FALLING_BEHIND,
-//            GameConfig.FALLING_FRAME_RATE);
-private Animation animationDavisFalling = new Animation("res/davis_falling_behind.png",
+    private Animation animationDavisShootingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_SHOOTING),
+            GameConfig.ATTACKING_FRAME_RATE);
+    private Animation animationDavisFalling = new Animation("res/davis_falling_behind.png",
         GameConfig.FALLING_FRAME_RATE);
     private SingleView singleViewJumpingLeft = new SingleView(Utils.flipImage(
             Utils.loadImage("res/davis_jumping_01.png")));
@@ -65,16 +69,103 @@ private Animation animationDavisFalling = new Animation("res/davis_falling_behin
     @Override
     public void run() {
         super.run();
-//        if (enemyCharacter.getCharacterState() == CharacterState.SKILL_SHOOTING){
-//            if (animationDavisShooting.isAnimationEnd()) {
-//                animationDavisShooting.setAnimationEnd(false);
-//                skillCharacterControllerArrayList.register(new SkillCharacterController(
-//                        new CharacterSkill(enemyCharacter.getX() + enemyCharacter.getHeight(),
-//                                enemyCharacter.getY() + (enemyCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2,
-//                                enemyCharacter.getZ())));
-//                enemyCharacter.setCharacterState(CharacterState.STANDING);
-//            }
-//        }
+        if (enemyCharacter.getCharacterState() == CharacterState.SKILL_SHOOTING){
+            if (animationDavisShootingRight.isAnimationEnd() || animationDavisShootingLeft.isAnimationEnd()) {
+                animationDavisShootingRight.setAnimationEnd(false);
+                animationDavisShootingLeft.setAnimationEnd(false);
+                SkillCharacterController skillController = new SkillCharacterController(new EnemySkill(
+                        enemyCharacter.getX() + enemyCharacter.getHeight(),
+                        enemyCharacter.getY(),
+                        enemyCharacter.getZ()));
+                skillController.gameObject.setLeft(enemyCharacter.isLeft());
+                skillController.gameObject.setDrawY(mainCharacter.getZ() +
+                        (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2);
+                listEnemyBullet.add(skillController);
+                enemyCharacter.setCharacterState(CharacterState.STANDING);
+            }
+        } else if (enemyCharacter.getCharacterState() == CharacterState.ATTACKING_NORMAL) {
+            if (animationDavisNormalAttackRight.isAnimationEnd() || animationDavisNormalAttackLeft.isAnimationEnd()) {
+                animationDavisNormalAttackRight.setAnimationEnd(false);
+                animationDavisNormalAttackLeft.setAnimationEnd(false);
+                enemyCharacter.setCharacterState(CharacterState.STANDING);
+            }
+        }
+
+        if ((enemyCharacter.getX() - mainCharacter.getX()) > 0) {
+            enemyCharacter.setLeft(true);
+        } else {
+            enemyCharacter.setLeft(false);
+        }
+
+        if(enemyCharacter.getCharacterState() != CharacterState.DEAD &&
+                enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_1 &&
+                enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_2 &&
+                enemyCharacter.getCharacterState() != CharacterState.FALL_LEFT &&
+                enemyCharacter.getCharacterState() != CharacterState.FALL_RIGHT) {
+            if (Math.abs(enemyCharacter.getZ() - mainCharacter.getZ()) < 300
+                    && Math.abs(enemyCharacter.getX() - mainCharacter.getX()) < 300
+                    && !mainCharacter.isInvulnerable()
+                    ) {
+                if (enemyType == EnemyType.SHOOT) {
+                    if ((enemyCharacter.getZ() - mainCharacter.getZ()) > 5) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_UP);
+                    } else if ((enemyCharacter.getZ() - mainCharacter.getZ()) < -5) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_DOWN);
+                    } else if ((enemyCharacter.getX() - mainCharacter.getX()) > 200) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_LEFT);
+                    } else if ((enemyCharacter.getX() - mainCharacter.getX()) < -200) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_RIGHT);
+                    } else {
+                        countAnimationShoot++;
+                        if (countAnimationShoot == 1 &&
+                                enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_1 &&
+                                enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_2 &&
+                                enemyCharacter.getCharacterState() != CharacterState.FALL_LEFT &&
+                                enemyCharacter.getCharacterState() != CharacterState.FALL_RIGHT) {
+                            enemyCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
+                        }
+                        if (countAnimationShoot == GameConfig.ENEMY_SHOOTING_DURATION) {
+                            countAnimationShoot = 0;
+                        }
+                    }
+                } else if (enemyType == EnemyType.FIGHT) {
+                    if ((enemyCharacter.getZ() - mainCharacter.getZ()) > 5) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_UP);
+                    } else if ((enemyCharacter.getZ() - mainCharacter.getZ()) < -5) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_DOWN);
+                    } else if ((enemyCharacter.getX() - mainCharacter.getX()) > 20) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_LEFT);
+                    } else if ((enemyCharacter.getX() - mainCharacter.getX()) < -20) {
+                        enemyCharacter.setCharacterState(CharacterState.WALKING_RIGHT);
+                    } else {
+                        countAnimationAttack++;
+                        if (countAnimationAttack == 1 &&
+                                enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_1 &&
+                                enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_2 &&
+                                enemyCharacter.getCharacterState() != CharacterState.FALL_LEFT &&
+                                enemyCharacter.getCharacterState() != CharacterState.FALL_RIGHT) {
+                            enemyCharacter.setCharacterState(CharacterState.ATTACKING_NORMAL);
+                        }
+                        if (countAnimationAttack == 20) {
+                            countAnimationAttack = 0;
+                        }
+                    }
+                }
+            } else if (enemyCharacter.getCharacterState() == CharacterState.DEAD){
+
+            } else if (enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_1 ||
+                    enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_2 ||
+                    enemyCharacter.getCharacterState() != CharacterState.FALL_LEFT ||
+                    enemyCharacter.getCharacterState() != CharacterState.FALL_RIGHT) {
+                enemyCharacter.setCharacterState(CharacterState.STANDING);
+            }
+        }
+        for (int i = 0; i < listEnemyBullet.size(); i++) {
+            listEnemyBullet.get(i).run();
+            if(listEnemyBullet.get(i).gameObject.getX() < 0 || listEnemyBullet.get(i).gameObject.getX() > 600){
+                listEnemyBullet.get(i).gameObject.setAlive(false);
+            }
+        }
     }
 
     @Override
@@ -112,11 +203,10 @@ private Animation animationDavisFalling = new Animation("res/davis_falling_behin
                 this.view = animationDavisRunningRight;
                 break;
             case ATTACKING_NORMAL:
-                this.view = animationDavisNormalAttack;
-                if (animationDavisNormalAttack.isAnimationEnd()){
-                    animationDavisNormalAttack.setAnimationEnd(false);
-                    enemyCharacter.setCharacterState(CharacterState.STANDING);
-                }
+                if (enemyCharacter.isLeft())
+                    this.view = animationDavisNormalAttackLeft;
+                else
+                    this.view = animationDavisNormalAttackRight;
                 break;
             case JUMPING:
                 if (enemyCharacter.isLeft())
@@ -137,7 +227,10 @@ private Animation animationDavisFalling = new Animation("res/davis_falling_behin
                     this.view = singleViewDefendindRight;
                 break;
             case SKILL_SHOOTING:
-                this.view = animationDavisShooting;
+                if(enemyCharacter.isLeft())
+                    this.view = animationDavisShootingLeft;
+                else
+                    this.view = animationDavisShootingRight;
                 break;
             case STUN_NORMAL_1:
                 this.view = singleViewStunNormal1;
@@ -145,7 +238,22 @@ private Animation animationDavisFalling = new Animation("res/davis_falling_behin
             case STUN_NORMAL_2:
                 this.view = singleViewStunNormal2;
                 break;
-            case FALL:
+            case FALL_LEFT:
+                countTimeFall++;
+                if (countTimeFall == 1){
+                    this.view = animationDavisFalling;
+                }
+                if (countTimeFall > TIME_FALL){
+                    countTimeFall = 0;
+                    animationDavisFalling.setAnimationEnd(false);
+                }
+                if (animationDavisFalling.isAnimationEnd()){
+                    this.view = singleViewFalling;
+                } else {
+                    enemyCharacter.walkLeft();
+                }
+                break;
+            case FALL_RIGHT:
                 countTimeFall++;
                 if (countTimeFall == 1){
                     this.view = animationDavisFalling;
@@ -160,21 +268,23 @@ private Animation animationDavisFalling = new Animation("res/davis_falling_behin
                     enemyCharacter.walkRight();
                 }
                 break;
+            case DEAD:
+                this.view = singleViewFalling;
+                break;
             default:
                 resetAnimation();
                 break;
         }
-
         super.draw(g);
+        for (int i = 0; i < listEnemyBullet.size(); i++) {
+            listEnemyBullet.get(i).draw(g);
+        }
     }
 
     public void resetAnimation(){
-        animationDavisNormalAttack.resetAnimation(0);
+        animationDavisNormalAttackRight.resetAnimation(0);
         animationDavisWalkingLeft.resetAnimation(0);
         animationDavisWalkingRight.resetAnimation(0);
         animationDavisJumping.resetAnimation(0);
-    }
-    public EnemyCharacter getEnemyCharacter() {
-        return enemyCharacter;
     }
 }

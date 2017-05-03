@@ -15,11 +15,13 @@ import java.awt.*;
  */
 public class SkillCharacterController extends SingleController {
 
-    private SingleView skillSingleView = new SingleView(Utils.loadImage("res/davis_ball_5.png"));
-    private Animation skillAnimation = new Animation(ResourceMap.DAVIS_BALL_FLY, GameConfig.BALL_FLYING_FRAME_RATE);
+    private SingleView skillSingleViewRight = new SingleView(Utils.loadImage("res/davis_ball_5.png"));
+    private SingleView skillSingleViewLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/davis_ball_5.png")));
+    private Animation skillAnimationRight = new Animation(ResourceMap.DAVIS_BALL_FLY, GameConfig.BALL_FLYING_FRAME_RATE);
+    private Animation skillAnimationLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_BALL_FLY), GameConfig.BALL_FLYING_FRAME_RATE);
     public SkillCharacterController(GameObject gameObject) {
         super(gameObject);
-        this.view = skillAnimation;
+        this.view = skillAnimationRight;
     }
 
     public SkillCharacterController(GameObject gameObject, SingleView view) {
@@ -29,15 +31,27 @@ public class SkillCharacterController extends SingleController {
     @Override
     public void run() {
         super.run();
-        ((CharacterSkill) gameObject).moveRight();
+        if (!gameObject.isLeft())
+            ((CharacterSkill) gameObject).moveRight();
+        else
+            ((CharacterSkill) gameObject).moveLeft();
     }
 
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-        if (skillAnimation.isAnimationEnd()){
-            skillAnimation.setAnimationEnd(false);
-            this.view = skillSingleView;
+        if(gameObject.isLeft()){
+            this.view = skillAnimationLeft;
+        } else {
+            this.view = skillSingleViewRight;
+        }
+        if (skillAnimationRight.isAnimationEnd()){
+            skillAnimationRight.setAnimationEnd(false);
+            if(gameObject.isLeft()){
+                this.view = skillSingleViewLeft;
+            } else {
+                this.view = skillSingleViewRight;
+            }
         }
     }
 }
