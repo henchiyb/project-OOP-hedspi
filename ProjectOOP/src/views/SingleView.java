@@ -31,7 +31,7 @@ public class SingleView implements View {
     public void draw(Graphics g, GameObject gameObject) {
         g.drawImage(
                 image,
-                gameObject.getX(),
+                gameObject.getDrawX(),
                 gameObject.getDrawY(),
 //                gameObject.getWidth(),
 //                gameObject.getHeight(),

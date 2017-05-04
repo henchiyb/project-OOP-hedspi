@@ -102,46 +102,52 @@ public class Character extends GameObject {
     }
 
     public void walkLeft() {
-        if (this.x > 0)
+        if (this.x > GameConfig.MAP_START_X)
             this.x -= GameConfig.WALKING_SPEED;
         else
-            this.x = 0;
+            this.x = GameConfig.MAP_START_X;
+
     }
 
     public void walkRight() {
-        if (this.x < GameConfig.SCREEN_WIDTH - this.getWidth())
+        if (this.x < GameConfig.MAP_WIDTH - this.getWidth())
             this.x += GameConfig.WALKING_SPEED;
         else
-            this.x = GameConfig.SCREEN_WIDTH - this.getWidth();
-
+            this.x = GameConfig.MAP_WIDTH - this.getWidth();
     }
 
     public void walkUp() {
-        if (this.z > 0) {
+        if (this.z > GameConfig.MAP_START_Y) {
             this.drawY -= GameConfig.WALKING_SPEED;
             this.z -= GameConfig.WALKING_SPEED;
         } else {
-            this.drawY = 0;
-            this.z = 0;
+            this.drawY = GameConfig.MAP_START_Y;
+            this.z = GameConfig.MAP_START_Y;
         }
     }
 
     public void walkDown() {
-        if (this.z < GameConfig.SCREEN_HEIGHT - this.getHeight()) {
+        if (this.z < GameConfig.MAP_END_Y - this.getHeight()) {
             this.drawY += GameConfig.WALKING_SPEED;
             this.z += GameConfig.WALKING_SPEED;
         } else {
-            this.drawY = GameConfig.SCREEN_HEIGHT - this.getHeight();
-            this.z = GameConfig.SCREEN_HEIGHT - this.getHeight();
+            this.drawY = GameConfig.MAP_END_Y - this.getHeight();
+            this.z = GameConfig.MAP_END_Y - this.getHeight();
         }
     }
 
     public void runLeft() {
-        this.x -= GameConfig.RUNNING_SPEED;
+        if (this.x > GameConfig.MAP_START_X)
+            this.x -= GameConfig.RUNNING_SPEED;
+        else
+            this.x = GameConfig.MAP_START_X;
     }
 
     public void runRight() {
-        this.x += GameConfig.RUNNING_SPEED;
+        if (this.x < GameConfig.MAP_WIDTH - this.getWidth())
+            this.x += GameConfig.RUNNING_SPEED;
+        else
+            this.x = GameConfig.MAP_WIDTH - this.getWidth();
     }
 
     public void jump(double time) {

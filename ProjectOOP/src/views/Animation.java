@@ -71,7 +71,7 @@ public class Animation implements View {
         frameRateCount++;
         g.drawImage(
                 image,
-                gameObject.getX(),
+                gameObject.getDrawX(),
                 gameObject.getDrawY(),
                 null);
         if (frameRateCount == frameRate) {

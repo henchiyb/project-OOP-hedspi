@@ -136,6 +136,7 @@ public class MainCharacterController extends CharacterController {
                             new MainSkill(mainCharacter.getX() + mainCharacter.getHeight(),
                                     mainCharacter.getY(),
                                     mainCharacter.getZ(),
+                                    mainCharacter.getDrawX(),
                                     GameConfig.GAME_OBJECT_WIDTH,
                                     GameConfig.GAME_OBJECT_HEIGHT));
                     skillController.gameObject.setDrawY(mainCharacter.getZ() +
@@ -145,6 +146,30 @@ public class MainCharacterController extends CharacterController {
                     mainCharacter.setManaChange(-10);
                     mainCharacter.updateManaBarWidth();
                     mainCharacter.setCharacterState(CharacterState.STANDING);
+                }
+                break;
+            case WALKING_LEFT:
+                if (mainCharacter.getDrawX() <= 0 && mainCharacter.getX() >= GameConfig.SCREEN_WIDTH) {
+                    PlayScene.bgScene1.setBackgroundState(CharacterState.WALKING_LEFT);
+                }
+                break;
+            case WALKING_RIGHT:
+                if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH &&
+                        mainCharacter.getX() <= GameConfig.MAP_WIDTH - GameConfig.GAME_OBJECT_WIDTH
+                                - GameConfig.SCREEN_WIDTH) {
+                    PlayScene.bgScene1.setBackgroundState(CharacterState.WALKING_RIGHT);
+                }
+                break;
+            case RUNNING_LEFT:
+                if (mainCharacter.getDrawX() <= 0 && mainCharacter.getX() >= GameConfig.SCREEN_WIDTH) {
+                    PlayScene.bgScene1.setBackgroundState(CharacterState.RUNNING_LEFT);
+                }
+                break;
+            case RUNNING_RIGHT:
+                if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH &&
+                        mainCharacter.getX() <= GameConfig.MAP_WIDTH - GameConfig.GAME_OBJECT_WIDTH
+                                - GameConfig.SCREEN_WIDTH) {
+                    PlayScene.bgScene1.setBackgroundState(CharacterState.RUNNING_RIGHT);
                 }
                 break;
             case STUN_NORMAL_1:
@@ -157,7 +182,12 @@ public class MainCharacterController extends CharacterController {
                 SceneManager.getInstance().sceneAction(ActionType.ATTACH);
                 break;
         }
-
+        if (mainCharacter.getCharacterState() != CharacterState.WALKING_LEFT &&
+                mainCharacter.getCharacterState() != CharacterState.WALKING_RIGHT &&
+                mainCharacter.getCharacterState()  != CharacterState.RUNNING_LEFT &&
+                mainCharacter.getCharacterState()  != CharacterState.RUNNING_RIGHT){
+            PlayScene.bgScene1.setBackgroundState(CharacterState.STANDING);
+        }
         if(mainCharacter.getMainExp() == GameConfig.MAX_EXP){
             mainCharacter.setMainExp(0);
             mainCharacter.levelUp();

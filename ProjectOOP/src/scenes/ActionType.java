@@ -5,6 +5,7 @@ package scenes;
  */
 public enum ActionType {
     MENU_SCENE,
+    CHOOSE_MAIN,
     PLAY_STAGE_1,
     PLAY_STAGE_2,
     ATTACH,

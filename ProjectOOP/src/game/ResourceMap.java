@@ -25,4 +25,47 @@ public class ResourceMap {
             "res/robot_left_2.png", "res/robot_left_3.png"};
     public static final String[] DAVIS_BALL_FLY = {"res/davis_ball_0.png", "res/davis_ball_1.png",
             "res/davis_ball_2.png", "res/davis_ball_3.png", "res/davis_ball_4.png", "res/davis_ball_5.png"};
+
+    // enemy1
+    public static final String[] ENEMY1_WALKING = {"res/enemy/enemy1/enemy1_walking (1).png",
+            "res/enemy/enemy1/enemy1_walking (2).png","res/enemy/enemy1/enemy1_walking (3).png",
+            "res/enemy/enemy1/enemy1_walking (4).png"};
+    public static final String[] ENEMY1_STANDING = {"res/enemy/enemy1/enemy1_standing (1).png",
+            "res/enemy/enemy1/enemy1_standing (2).png","res/enemy/enemy1/enemy1_standing (3).png",
+            "res/enemy/enemy1/enemy1_standing (4).png",};
+    public static final String[] ENEMY1_RUNNING = {"res/enemy/enemy1/enemy1_running (1).png",
+            "res/enemy/enemy1/enemy1_running (2).png","res/enemy/enemy1/enemy1_running (3).png"};
+    public static final String[] ENEMY1_FALLING_BEHIND = {};
+    public static final String[] ENEMY1_NORMAL_ATTACK_0 = {};
+    public static final String[] ENEMY1_NORMAL_ATTACK_1 = {};
+    public static final String[] ENEMY1_NORMAL_ATTACK = {"res/enemy/enemy1/enemy1_normal_attack (1).png",
+            "res/enemy/enemy1/enemy1_normal_attack (2).png","res/enemy/enemy1/enemy1_normal_attack (3).png",
+            "res/enemy/enemy1/enemy1_normal_attack (4).png","res/enemy/enemy1/enemy1_normal_attack (5).png",
+            "res/enemy/enemy1/enemy1_normal_attack (6).png"};
+    public static final String[] ENEMY1_JUMPING = {"res/enemy/enemy1/enemy1_jumping (1).png","res/enemy/enemy1/enemy1_jumping (2).png"};
+    public static final String[] ENEMY1_SHOOTING = {"res/enemy/enemy1/enemy1_shooting (1).png",
+            "res/enemy/enemy1/enemy1_shooting (2).png","res/enemy/enemy1/enemy1_shooting (3).png",
+            "res/enemy/enemy1/enemy1_shooting (4).png"};
+    public static final String[] ENEMY1_BALL_FLY = {};
+
+    //enemy2
+    public static final String[] ENEMY2_WALKING = {"res/enemy/enemy2/enemy2_walking (1).png",
+            "res/enemy/enemy2/enemy2_walking (2).png","res/enemy/enemy2/enemy2_walking (3).png",
+            "res/enemy/enemy2/enemy2_walking (4).png"};
+    public static final String[] ENEMY2_STANDING = {"res/enemy/enemy2/enemy2_standing (1).png",
+            "res/enemy/enemy2/enemy2_standing (2).png","res/enemy/enemy2/enemy2_standing (3).png"};
+    public static final String[] ENEMY2_RUNNING = {"res/enemy/enemy2/enemy2_running (1).png",
+            "res/enemy/enemy2/enemy2_running (2).png","res/enemy/enemy2/enemy2_running (3).png"};
+    public static final String[] ENEMY2_FALLING_BEHIND = {};
+    public static final String[] ENEMY2_NORMAL_ATTACK_0 = {};
+    public static final String[] ENEMY2_NORMAL_ATTACK_1 = {};
+    public static final String[] ENEMY2_NORMAL_ATTACK = {"res/enemy/enemy2/enemy2_normal_attack (1).png",
+            "res/enemy/enemy2/enemy2_normal_attack (2).png","res/enemy/enemy2/enemy2_normal_attack (3).png",
+            "res/enemy/enemy2/enemy2_normal_attack (4).png","res/enemy/enemy2/enemy2_normal_attack (5).png",
+            "res/enemy/enemy2/enemy2_normal_attack (6).png"};
+    public static final String[] ENEMY2_JUMPING = {"res/enemy/enemy2/enemy2_jumping (1).png",
+            "res/enemy/enemy2/enemy2_jumping (2).png","res/enemy/enemy2/enemy2_jumping (3).png"};
+    public static final String[] ENEMY2_SHOOTING = {"res/enemy/enemy2/enemy2_shooting (1).png",
+            "res/enemy/enemy2/enemy2_shooting (2).png","res/enemy/enemy2/enemy2_shooting (3).png"};
+    public static final String[] ENEMY2_BALL_FLY = {};
 }

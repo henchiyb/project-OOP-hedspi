@@ -15,6 +15,7 @@ import java.util.ArrayList;
     /**
      * Created by Nhan on 4/27/2017.
      */
+
     public class EnemyController extends CharacterController {
         private EnemyCharacter enemyCharacter = (EnemyCharacter) this.gameObject;
         private MainCharacter mainCharacter = MainCharacter.mainCharacter;
@@ -24,26 +25,27 @@ import java.util.ArrayList;
         private int countAnimationShoot = 0;
         private int countAnimationAttack = 0;
 
-        private Animation animationDavisWalkingLeft;
-        private Animation animationDavisWalkingRight;
-        private Animation animationDavisRunningLeft;
-        private Animation animationDavisRunningRight;
-        private Animation animationDavisStandingRight;
-        private Animation animationDavisStandingLeft;
-        private Animation animationDavisNormalAttackRight;
-        private Animation animationDavisNormalAttackLeft;
-        private Animation animationDavisJumping;
-        private Animation animationDavisShootingRight;
-        private Animation animationDavisShootingLeft;
+        private int countTimeDeadAnimation = 0;
+
+        private Animation animationEnemyWalkingLeft;
+        private Animation animationEnemyWalkingRight;
+        private Animation animationEnemyRunningLeft;
+        private Animation animationEnemyRunningRight;
+        private Animation animationEnemyStandingRight;
+        private Animation animationEnemyStandingLeft;
+        private Animation animationEnemyNormalAttackRight;
+        private Animation animationEnemyNormalAttackLeft;
+        private Animation animationEnemyJumping;
+        private Animation animationEnemyShootingRight;
+        private Animation animationEnemyShootingLeft;
         private SingleView singleViewJumpingLeft;
         private SingleView singleViewJumpingRight;
         private SingleView singleViewDefendindRight;
         private SingleView singleViewDefendindLeft;
-        private Animation animationDavisFalling;
+        private Animation animationEnemyFalling;
         private SingleView singleViewStunNormal1;
         private SingleView singleViewStunNormal2;
         private SingleView singleViewFalling;
-        private int countTimeDeadAnimation = 0;
 
         public EnemyController(GameObject gameObject, EnemyType enemyType) {
             super(gameObject);
@@ -51,83 +53,84 @@ import java.util.ArrayList;
             initView();
         }
 
-        private void initView(){
-            if (enemyType == EnemyType.FIGHT) {
-                animationDavisWalkingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_WALKING),
+        private void initView() {
+            if (enemyType == EnemyType.SHOOT) {
+                animationEnemyWalkingLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY1_WALKING),
                         GameConfig.WALKING_FRAME_RATE);
-                animationDavisWalkingRight = new Animation(Utils.flipImages(Utils.flipImages(ResourceMap.DAVIS_WALKING)),
+                animationEnemyWalkingRight = new Animation(Utils.flipImages(Utils.flipImages(ResourceMap.ENEMY1_WALKING)),
                         GameConfig.WALKING_FRAME_RATE);
-                animationDavisRunningLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_RUNNING),
+                animationEnemyRunningLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY1_RUNNING),
                         GameConfig.RUNNING_FRAME_RATE);
-                animationDavisRunningRight = new Animation(ResourceMap.DAVIS_RUNNING,
+                animationEnemyRunningRight = new Animation(ResourceMap.ENEMY1_RUNNING,
                         GameConfig.RUNNING_FRAME_RATE);
-                animationDavisStandingRight = new Animation(ResourceMap.DAVIS_STANDING,
+                animationEnemyStandingRight = new Animation(ResourceMap.ENEMY1_STANDING,
                         GameConfig.STANDING_FRAME_RATE);
-                animationDavisStandingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_STANDING),
+                animationEnemyStandingLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY1_STANDING),
                         GameConfig.STANDING_FRAME_RATE);
-                animationDavisNormalAttackRight = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
+                animationEnemyNormalAttackRight = new Animation(ResourceMap.ENEMY1_NORMAL_ATTACK,
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisNormalAttackLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_NORMAL_ATTACK_2),
+                animationEnemyNormalAttackLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY1_NORMAL_ATTACK),
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisJumping = new Animation(ResourceMap.DAVIS_JUMPING,
+                animationEnemyJumping = new Animation(ResourceMap.ENEMY1_JUMPING,
                         GameConfig.JUMPING_FRAME_RATE);
-                animationDavisShootingRight = new Animation(ResourceMap.DAVIS_SHOOTING,
+                animationEnemyShootingRight = new Animation(ResourceMap.ENEMY1_SHOOTING,
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisShootingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_SHOOTING),
+                animationEnemyShootingLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY1_SHOOTING),
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisFalling = new Animation("res/davis_falling_behind.png", GameConfig.FALLING_FRAME_RATE);
-                singleViewJumpingLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/davis_jumping_01.png")));
-                singleViewJumpingRight = new SingleView(Utils.loadImage("res/davis_jumping_01.png"));
-                singleViewDefendindRight = new SingleView(Utils.loadImage("res/davis_defend_1.png"));
-                singleViewDefendindLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/davis_defend_1.png")));
-                singleViewStunNormal1 = new SingleView(Utils.loadImage("res/davis_stun_normal_1_behind.png"));
-                singleViewStunNormal2 = new SingleView(Utils.loadImage("res/davis_stun_normal_2_behind.png"));
-                singleViewFalling = new SingleView(animationDavisFalling.getSubImage(animationDavisFalling.getNumberOfFrame()));
-            } else if (enemyType == EnemyType.SHOOT){
-                animationDavisWalkingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_WALKING),
+                animationEnemyFalling = new Animation("res/enemy/enemy1/enemy1_falling_behind.png", GameConfig.FALLING_FRAME_RATE);
+                singleViewJumpingLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/enemy/enemy1/enemy1_jumping (2).png")));
+                singleViewJumpingRight = new SingleView(Utils.loadImage("res/enemy/enemy1/enemy1_jumping (2).png"));
+                singleViewDefendindRight = new SingleView(Utils.loadImage("res/enemy/enemy1/enemy1_defend.png"));
+                singleViewDefendindLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/enemy/enemy1/enemy1_defend.png")));
+                singleViewStunNormal1 = new SingleView(Utils.loadImage("res/enemy/enemy1/enemy1_stun_normal_1_behind (1).png"));
+                singleViewStunNormal2 = new SingleView(Utils.loadImage("res/enemy/enemy1/enemy1_stun_normal_1_behind (2).png"));
+                singleViewFalling = new SingleView(animationEnemyFalling.getSubImage(animationEnemyFalling.getNumberOfFrame()));
+            } else if (enemyType == EnemyType.FIGHT) {
+                animationEnemyWalkingLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY2_WALKING),
                         GameConfig.WALKING_FRAME_RATE);
-                animationDavisWalkingRight = new Animation(Utils.flipImages(Utils.flipImages(ResourceMap.DAVIS_WALKING)),
+                animationEnemyWalkingRight = new Animation(Utils.flipImages(Utils.flipImages(ResourceMap.ENEMY2_WALKING)),
                         GameConfig.WALKING_FRAME_RATE);
-                animationDavisRunningLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_RUNNING),
+                animationEnemyRunningLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY2_RUNNING),
                         GameConfig.RUNNING_FRAME_RATE);
-                animationDavisRunningRight = new Animation(ResourceMap.DAVIS_RUNNING,
+                animationEnemyRunningRight = new Animation(ResourceMap.ENEMY2_RUNNING,
                         GameConfig.RUNNING_FRAME_RATE);
-                animationDavisStandingRight = new Animation(ResourceMap.DAVIS_STANDING,
+                animationEnemyStandingRight = new Animation(ResourceMap.ENEMY2_STANDING,
                         GameConfig.STANDING_FRAME_RATE);
-                animationDavisStandingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_STANDING),
+                animationEnemyStandingLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY2_STANDING),
                         GameConfig.STANDING_FRAME_RATE);
-                animationDavisNormalAttackRight = new Animation(ResourceMap.DAVIS_NORMAL_ATTACK_2,
+                animationEnemyNormalAttackRight = new Animation(ResourceMap.ENEMY2_NORMAL_ATTACK,
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisNormalAttackLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_NORMAL_ATTACK_2),
+                animationEnemyNormalAttackLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY2_NORMAL_ATTACK),
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisJumping = new Animation(ResourceMap.DAVIS_JUMPING,
+                animationEnemyJumping = new Animation(ResourceMap.ENEMY2_JUMPING,
                         GameConfig.JUMPING_FRAME_RATE);
-                animationDavisShootingRight = new Animation(ResourceMap.DAVIS_SHOOTING,
+                animationEnemyShootingRight = new Animation(ResourceMap.ENEMY2_SHOOTING,
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisShootingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_SHOOTING),
+                animationEnemyShootingLeft = new Animation(Utils.flipImages(ResourceMap.ENEMY2_SHOOTING),
                         GameConfig.ATTACKING_FRAME_RATE);
-                animationDavisFalling = new Animation("res/davis_falling_behind.png", GameConfig.FALLING_FRAME_RATE);
-                singleViewJumpingLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/davis_jumping_01.png")));
-                singleViewJumpingRight = new SingleView(Utils.loadImage("res/davis_jumping_01.png"));
-                singleViewDefendindRight = new SingleView(Utils.loadImage("res/davis_defend_1.png"));
+                animationEnemyFalling = new Animation("res/enemy/enemy2/enemy2_falling_behind.png", GameConfig.FALLING_FRAME_RATE);
+                singleViewJumpingLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/enemy/enemy2/enemy2_jumping (3).png")));
+                singleViewJumpingRight = new SingleView(Utils.loadImage("res/enemy/enemy2/enemy2_jumping (3).png"));
+                singleViewDefendindRight = new SingleView(Utils.loadImage("res/enemy/enemy2/enemy2_defend.png"));
                 singleViewDefendindLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/davis_defend_1.png")));
-                singleViewStunNormal1 = new SingleView(Utils.loadImage("res/davis_stun_normal_1_behind.png"));
-                singleViewStunNormal2 = new SingleView(Utils.loadImage("res/davis_stun_normal_2_behind.png"));
-                singleViewFalling = new SingleView(animationDavisFalling.getSubImage(animationDavisFalling.getNumberOfFrame()));
+                singleViewStunNormal1 = new SingleView(Utils.loadImage("res/enemy/enemy2/enemy2_stun_normal_1_behind (1).png"));
+                singleViewStunNormal2 = new SingleView(Utils.loadImage("res/enemy/enemy2/enemy2_stun_normal_1_behind (2).png"));
+                singleViewFalling = new SingleView(animationEnemyFalling.getSubImage(animationEnemyFalling.getNumberOfFrame()));
             }
         }
 
         @Override
         public void run() {
             super.run();
-            if (enemyCharacter.getCharacterState() == CharacterState.SKILL_SHOOTING){
-                if (animationDavisShootingRight.isAnimationEnd() || animationDavisShootingLeft.isAnimationEnd()) {
-                    animationDavisShootingRight.setAnimationEnd(false);
-                    animationDavisShootingLeft.setAnimationEnd(false);
+            if (enemyCharacter.getCharacterState() == CharacterState.SKILL_SHOOTING) {
+                if (animationEnemyShootingRight.isAnimationEnd() || animationEnemyShootingLeft.isAnimationEnd()) {
+                    animationEnemyShootingRight.setAnimationEnd(false);
+                    animationEnemyShootingLeft.setAnimationEnd(false);
                     SkillCharacterController skillController = new SkillCharacterController(new EnemySkill(
                             enemyCharacter.getX() + enemyCharacter.getHeight(),
                             enemyCharacter.getY(),
-                            enemyCharacter.getZ()));
+                            enemyCharacter.getZ(),
+                            enemyCharacter.getDrawX()));
                     skillController.gameObject.setLeft(enemyCharacter.isLeft());
                     skillController.gameObject.setDrawY(mainCharacter.getZ() +
                             (mainCharacter.getHeight() - CharacterSkill.SKILL_HEIGHT) / 2);
@@ -135,14 +138,14 @@ import java.util.ArrayList;
                     enemyCharacter.setCharacterState(CharacterState.STANDING);
                 }
             } else if (enemyCharacter.getCharacterState() == CharacterState.ATTACKING_NORMAL) {
-                if (animationDavisNormalAttackRight.isAnimationEnd() || animationDavisNormalAttackLeft.isAnimationEnd()) {
-                    animationDavisNormalAttackRight.setAnimationEnd(false);
-                    animationDavisNormalAttackLeft.setAnimationEnd(false);
+                if (animationEnemyNormalAttackRight.isAnimationEnd() || animationEnemyNormalAttackLeft.isAnimationEnd()) {
+                    animationEnemyNormalAttackRight.setAnimationEnd(false);
+                    animationEnemyNormalAttackLeft.setAnimationEnd(false);
                     enemyCharacter.setCharacterState(CharacterState.STANDING);
                 }
-            }else if (enemyCharacter.getCharacterState() == CharacterState.DEAD) {
+            } else if (enemyCharacter.getCharacterState() == CharacterState.DEAD) {
                 countTimeDeadAnimation++;
-                if (countTimeDeadAnimation == 1){
+                if (countTimeDeadAnimation == 1) {
                     mainCharacter.gainExp(5);
                     System.out.println("gain 5 EXP");
                 }
@@ -155,7 +158,7 @@ import java.util.ArrayList;
                 enemyCharacter.setLeft(false);
             }
 
-            if(enemyCharacter.getCharacterState() != CharacterState.DEAD &&
+            if (enemyCharacter.getCharacterState() != CharacterState.DEAD &&
                     enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_1 &&
                     enemyCharacter.getCharacterState() != CharacterState.STUN_NORMAL_2 &&
                     enemyCharacter.getCharacterState() != CharacterState.FALL_LEFT &&
@@ -217,43 +220,43 @@ import java.util.ArrayList;
 
         @Override
         public void draw(Graphics g) {
-            switch (enemyCharacter.getCharacterState()){
+            switch (enemyCharacter.getCharacterState()) {
                 case STANDING:
                     resetAnimation();
                     if (enemyCharacter.isLeft())
-                        this.view = animationDavisStandingLeft;
+                        this.view = animationEnemyStandingLeft;
                     else
-                        this.view = animationDavisStandingRight;
+                        this.view = animationEnemyStandingRight;
                     break;
                 case WALKING_LEFT:
-                    this.view = animationDavisWalkingLeft;
+                    this.view = animationEnemyWalkingLeft;
                     break;
                 case WALKING_RIGHT:
-                    this.view = animationDavisWalkingRight;
+                    this.view = animationEnemyWalkingRight;
                     break;
                 case WALKING_DOWN:
                     if (enemyCharacter.isLeft())
-                        this.view = animationDavisWalkingLeft;
+                        this.view = animationEnemyWalkingLeft;
                     else
-                        this.view = animationDavisWalkingRight;
+                        this.view = animationEnemyWalkingRight;
                     break;
                 case WALKING_UP:
                     if (enemyCharacter.isLeft())
-                        this.view = animationDavisWalkingLeft;
+                        this.view = animationEnemyWalkingLeft;
                     else
-                        this.view = animationDavisWalkingRight;
+                        this.view = animationEnemyWalkingRight;
                     break;
                 case RUNNING_LEFT:
-                    this.view = animationDavisRunningLeft;
+                    this.view = animationEnemyRunningLeft;
                     break;
                 case RUNNING_RIGHT:
-                    this.view = animationDavisRunningRight;
+                    this.view = animationEnemyRunningRight;
                     break;
                 case ATTACKING_NORMAL:
                     if (enemyCharacter.isLeft())
-                        this.view = animationDavisNormalAttackLeft;
+                        this.view = animationEnemyNormalAttackLeft;
                     else
-                        this.view = animationDavisNormalAttackRight;
+                        this.view = animationEnemyNormalAttackRight;
                     break;
                 case JUMPING:
                     if (enemyCharacter.isLeft())
@@ -268,16 +271,16 @@ import java.util.ArrayList;
                     this.view = singleViewJumpingRight;
                     break;
                 case DEFENDING:
-                    if(enemyCharacter.isLeft())
+                    if (enemyCharacter.isLeft())
                         this.view = singleViewDefendindLeft;
                     else
                         this.view = singleViewDefendindRight;
                     break;
                 case SKILL_SHOOTING:
-                    if(enemyCharacter.isLeft())
-                        this.view = animationDavisShootingLeft;
+                    if (enemyCharacter.isLeft())
+                        this.view = animationEnemyShootingLeft;
                     else
-                        this.view = animationDavisShootingRight;
+                        this.view = animationEnemyShootingRight;
                     break;
                 case STUN_NORMAL_1:
                     this.view = singleViewStunNormal1;
@@ -287,14 +290,14 @@ import java.util.ArrayList;
                     break;
                 case FALL_LEFT:
                     countTimeFall++;
-                    if (countTimeFall == 1){
-                        this.view = animationDavisFalling;
+                    if (countTimeFall == 1) {
+                        this.view = animationEnemyFalling;
                     }
-                    if (countTimeFall > TIME_FALL){
+                    if (countTimeFall > TIME_FALL) {
                         countTimeFall = 0;
-                        animationDavisFalling.setAnimationEnd(false);
+                        animationEnemyFalling.setAnimationEnd(false);
                     }
-                    if (animationDavisFalling.isAnimationEnd()){
+                    if (animationEnemyFalling.isAnimationEnd()) {
                         this.view = singleViewFalling;
                     } else {
                         enemyCharacter.walkLeft();
@@ -302,14 +305,14 @@ import java.util.ArrayList;
                     break;
                 case FALL_RIGHT:
                     countTimeFall++;
-                    if (countTimeFall == 1){
-                        this.view = animationDavisFalling;
+                    if (countTimeFall == 1) {
+                        this.view = animationEnemyFalling;
                     }
-                    if (countTimeFall > TIME_FALL){
+                    if (countTimeFall > TIME_FALL) {
                         countTimeFall = 0;
-                        animationDavisFalling.setAnimationEnd(false);
+                        animationEnemyFalling.setAnimationEnd(false);
                     }
-                    if (animationDavisFalling.isAnimationEnd()){
+                    if (animationEnemyFalling.isAnimationEnd()) {
                         this.view = singleViewFalling;
                     } else {
                         enemyCharacter.walkRight();
@@ -322,10 +325,10 @@ import java.util.ArrayList;
             super.draw(g);
         }
 
-        public void resetAnimation(){
-            animationDavisNormalAttackRight.resetAnimation(0);
-            animationDavisWalkingLeft.resetAnimation(0);
-            animationDavisWalkingRight.resetAnimation(0);
-            animationDavisJumping.resetAnimation(0);
+        public void resetAnimation() {
+            animationEnemyNormalAttackRight.resetAnimation(0);
+            animationEnemyWalkingLeft.resetAnimation(0);
+            animationEnemyWalkingRight.resetAnimation(0);
+            animationEnemyJumping.resetAnimation(0);
         }
     }

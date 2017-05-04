@@ -2,6 +2,7 @@ package models;
 
 import controllers.CollisionController;
 import controllers.SkillCharacterController;
+import game.GameConfig;
 import managers.ControllerManager;
 
 /**
@@ -14,6 +15,26 @@ public class EnemyCharacter extends Character {
         CollisionController.getInstance().register(this);
     }
 
+    @Override
+    public void walkLeft(){
+        super.walkLeft();
+        this.drawX -= GameConfig.WALKING_SPEED;
+    }
+    @Override
+    public void walkRight(){
+        super.walkRight();
+            this.drawX += GameConfig.WALKING_SPEED;
+    }
+    @Override
+    public void runLeft(){
+        super.runLeft();
+        this.drawX -= GameConfig.RUNNING_SPEED;
+    }
+    @Override
+    public void runRight(){
+        super.runRight();
+        this.drawX += GameConfig.RUNNING_SPEED;
+    }
     @Override
     public Character getGameObject() {
         return this;

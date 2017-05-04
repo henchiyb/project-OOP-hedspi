@@ -2,6 +2,7 @@ package models;
 
 
 import controllers.CollisionController;
+import controllers.GameObjectController;
 import controllers.SkillCharacterController;
 import game.GameConfig;
 import managers.ControllerManager;
@@ -28,7 +29,7 @@ public class MainCharacter extends Character{
         stackControlAction  = new Stack<>();
         this.setLeft(true);
         CollisionController.getInstance().register(this);
-
+        GameObjectController.getInstance().remove(this);
     }
 
     public int getMaxHealth() {
@@ -91,6 +92,38 @@ public class MainCharacter extends Character{
     public static MainCharacter mainCharacter = new MainCharacter(0, 0, 300, GameConfig.GAME_OBJECT_WIDTH,
             GameConfig.GAME_OBJECT_HEIGHT);
 
+    @Override
+    public void walkLeft(){
+        super.walkLeft();
+        if (this.drawX > GameConfig.MAP_START_X)
+            this.drawX -= GameConfig.WALKING_SPEED;
+        else
+            this.drawX = GameConfig.MAP_START_X;
+    }
+    @Override
+    public void walkRight(){
+        super.walkRight();
+        if (this.drawX < GameConfig.SCREEN_WIDTH - this.getWidth())
+            this.drawX += GameConfig.WALKING_SPEED;
+        else
+            this.drawX = GameConfig.SCREEN_WIDTH - this.getWidth();
+    }
+    @Override
+    public void runLeft(){
+        super.runLeft();
+        if (this.drawX > GameConfig.MAP_START_X)
+            this.drawX -= GameConfig.RUNNING_SPEED;
+        else
+            this.drawX = GameConfig.MAP_START_X;
+    }
+    @Override
+    public void runRight(){
+        super.runRight();
+        if (this.drawX < GameConfig.SCREEN_WIDTH - this.getWidth())
+            this.drawX += GameConfig.RUNNING_SPEED;
+        else
+            this.drawX = GameConfig.SCREEN_WIDTH - this.getWidth();
+    }
     @Override
     public void getHit(int damage){
         super.getHit(damage);

@@ -125,7 +125,7 @@ public abstract class CharacterController extends SingleController {
         int alpha = 80;
         Color myColour = new Color(0, 0, 0, alpha);
         g.setColor(myColour);
-        g.fillOval(this.getGameObject().getX(),
+        g.fillOval(this.getGameObject().getDrawX(),
             this.getGameObject().getZ() + GameConfig.GAME_OBJECT_HEIGHT - GameConfig.GAME_OBJECT_DEPTH,
             GameConfig.GAME_OBJECT_WIDTH,
             GameConfig.GAME_OBJECT_DEPTH);

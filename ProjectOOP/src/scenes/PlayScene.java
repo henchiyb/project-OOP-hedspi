@@ -27,6 +27,7 @@ public class PlayScene extends GameScene{
     protected EnemyManager enemyManager;
     public static int mainType = 1;
     public static MainCharacterController mainCharacterController = null;
+    public static Background bgScene1 = new Background(0, 0, 0);
 
     public PlayScene(){
         this.actionType = ActionType.PLAY_STAGE_1;
@@ -37,10 +38,9 @@ public class PlayScene extends GameScene{
         mainCharacter = MainCharacter.mainCharacter;
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();
-        BufferedImage backgroundImage = Utils.loadImage("res/background.png");
-        backgroundController = new BackgroundController(new Background(0, 0, 0), new SingleView(backgroundImage));
-//        enemyManager = new EnemyManager(1, 0);
-        enemyManager = new EnemyManager(2, 2);
+        BufferedImage backgroundImage = Utils.loadImage("res/background_1.png");
+        backgroundController = new BackgroundController(bgScene1, new SingleView(backgroundImage));
+        enemyManager = new EnemyManager(1, 1);
     }
     @Override
     public void update(Graphics g) {
@@ -61,26 +61,16 @@ public class PlayScene extends GameScene{
             if (!stackControlAction.empty())
                 stackControlAction.pop();
         }
-        if (stackControlAction.size() > 2) {
+        if (stackControlAction.size() > 1) {
             int a = stackControlAction.pop();
             int b = stackControlAction.pop();
-            int c = stackControlAction.pop();
-            System.out.println(a + " " + b + " " + c);
-            System.out.println(KeyEvent.VK_K + "---" + KeyEvent.VK_D + "---" + KeyEvent.VK_J);
-            if (a == KeyEvent.VK_K &&
-                    b == KeyEvent.VK_D &&
-                    c == KeyEvent.VK_J) {
-                if (mainCharacter.getMana() > 0)
-                    mainCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
-                System.out.println(mainCharacter.getCharacterState() + "");
-            } else if (a == KeyEvent.VK_A &&
-                    b == KeyEvent.VK_A) {
+            if (a == KeyEvent.VK_A && b == KeyEvent.VK_A) {
                 mainCharacter.setCharacterState(CharacterState.RUNNING_LEFT);
-                System.out.println(mainCharacter.getCharacterState() + "");
+                System.out.println(mainCharacter.getCharacterState());
             } else if (a == KeyEvent.VK_D &&
                     b == KeyEvent.VK_D) {
                 mainCharacter.setCharacterState(CharacterState.RUNNING_RIGHT);
-                System.out.println(mainCharacter.getCharacterState() + "");
+                System.out.println(mainCharacter.getCharacterState());
             }
         }
         controllerManager.run();
@@ -111,15 +101,11 @@ public class PlayScene extends GameScene{
                 case KeyEvent.VK_A:
                     addKeyCodeIntoStack(KeyEvent.VK_A);
                     mainCharacter.setCharacterState(CharacterState.WALKING_LEFT);
-                    backgroundController.setMoveLeft(true);
-                    backgroundController.setMoveRight(false);
                     mainCharacter.setLeft(true);
                     break;
                 case KeyEvent.VK_D:
                     addKeyCodeIntoStack(KeyEvent.VK_D);
                     mainCharacter.setCharacterState(CharacterState.WALKING_RIGHT);
-                    backgroundController.setMoveLeft(false);
-                    backgroundController.setMoveRight(true);
                     mainCharacter.setLeft(false);
                     break;
                 case KeyEvent.VK_J:
@@ -128,7 +114,8 @@ public class PlayScene extends GameScene{
                     break;
                 case KeyEvent.VK_K:
                     addKeyCodeIntoStack(KeyEvent.VK_K);
-                    mainCharacter.setCharacterState(CharacterState.DEFENDING);
+                    if (mainCharacter.getMana() > 0)
+                        mainCharacter.setCharacterState(CharacterState.SKILL_SHOOTING);
                     break;
                 case KeyEvent.VK_L:
                     addKeyCodeIntoStack(KeyEvent.VK_L);

@@ -1,6 +1,7 @@
 package models;
 
 import controllers.CollisionController;
+import controllers.GameObjectController;
 import game.GameConfig;
 import utils.Rectangle3D;
 
@@ -12,10 +13,10 @@ public abstract class GameObject implements Collision{
     protected boolean isLeft = true;
     protected boolean isAttack;
     protected boolean isJump;
-    protected boolean isDefend;
     protected int x;
     protected int y;
     protected int z;
+    protected int drawX;
     protected int drawY; // position y to draw
     private int width;
     private int height;
@@ -30,18 +31,22 @@ public abstract class GameObject implements Collision{
 
     public GameObject(int x, int y, int z){
         this.x = x;
+        this.drawX = x;
         this. y = y ;
         this.z = z;
         this.drawY = z;
+        GameObjectController.getInstance().add(this);
     }
 
     public GameObject(int x, int y, int z, int width, int height) {
         this.x = x;
+        this.drawX = x;
         this.y = y;
         this.z = z;
         this.drawY = z;
         this.width = width;
         this.height = height;
+        GameObjectController.getInstance().add(this);
     }
 
     public boolean isAlive() {
@@ -81,12 +86,16 @@ public abstract class GameObject implements Collision{
         return isJump;
     }
 
-    public boolean isDefend() {
-        return isDefend;
-    }
-
     public int getDrawY() {
         return drawY;
+    }
+
+    public int getDrawX() {
+        return drawX;
+    }
+
+    public void setDrawX(int drawX) {
+        this.drawX = drawX;
     }
 
     public void setAttack(boolean attack) {
@@ -95,10 +104,6 @@ public abstract class GameObject implements Collision{
 
     public void setJump(boolean jump) {
         isJump = jump;
-    }
-
-    public void setDefend(boolean defend) {
-        isDefend = defend;
     }
 
     public void setX(int x) {
@@ -119,6 +124,15 @@ public abstract class GameObject implements Collision{
 
     public void destroy(){
         CollisionController.getInstance().unregister(this);
+        GameObjectController.getInstance().remove(this);
+    }
+
+    public void moveDrawXToLeft(int speed){
+        this.drawX -= speed;
+    }
+
+    public void moveDrawXToRight(int speed){
+        this.drawX += speed;
     }
 
     public boolean intersects(GameObject gameObject){

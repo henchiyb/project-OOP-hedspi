@@ -54,8 +54,7 @@ public class MenuScene extends GameScene implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (playRect.contains(e.getX(),e.getY())) {
             PlayScene.mainType = 1;
-            SceneManager.getInstance().sceneAction(ActionType.PLAY_STAGE_1);
-            System.out.println("change");
+            SceneManager.getInstance().sceneAction(ActionType.CHOOSE_MAIN);
         }
     }
 

@@ -69,6 +69,13 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
                     e.printStackTrace();
                 }
                 break;
+            case CHOOSE_MAIN:
+                try {
+                    attach(new ChooseMainScene(this));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case PLAY_STAGE_1:
                 attach(new PlayScene());
                 break;
@@ -88,6 +95,8 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
         if(gameScene != null){
             if(gameScene.getActionType() == ActionType.MENU_SCENE) {
                 removeMouseListener((MenuScene) gameScene);
+            } else if(gameScene.getActionType() == ActionType.CHOOSE_MAIN) {
+                removeMouseListener((ChooseMainScene) gameScene);
             }
             removeKeyListener(gameScene);
         }
@@ -98,6 +107,8 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
         gameScene = newScene;
         if(gameScene.getActionType() == ActionType.MENU_SCENE) {
             addMouseListener((MenuScene) gameScene);
+        } else if(gameScene.getActionType() == ActionType.CHOOSE_MAIN) {
+            addMouseListener((ChooseMainScene) gameScene);
         }
         addKeyListener(gameScene);
     }
