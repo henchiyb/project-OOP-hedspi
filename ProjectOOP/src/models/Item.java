@@ -21,7 +21,7 @@ public class Item extends GameObject {
     }
 
     public Item(int x, int y, int z) {
-        super(x, y, z);
+        super(x, y, z, GameConfig.GAME_OBJECT_WIDTH, GameConfig.GAME_OBJECT_HEIGHT / 2);
         CollisionController.getInstance().register(this);
     }
 

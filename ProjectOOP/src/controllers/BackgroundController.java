@@ -42,7 +42,7 @@ public class BackgroundController extends SingleController {
                 break;
             case RUNNING_LEFT:
                 if (background.getDrawX() < GameConfig.MAP_START_X) {
-                    background.moveDrawXToRight(GameConfig.WALKING_SPEED);
+                    background.moveDrawXToRight(GameConfig.RUNNING_SPEED);
                     for (int i = 0; i < listObject.size(); i++) {
                         listObject.get(i).moveDrawXToRight(GameConfig.RUNNING_SPEED);
                     }
@@ -50,7 +50,7 @@ public class BackgroundController extends SingleController {
                 break;
             case RUNNING_RIGHT:
                 if (background.getDrawX() > GameConfig.SCREEN_WIDTH - GameConfig.MAP_END_X) {
-                    background.moveDrawXToLeft(GameConfig.WALKING_SPEED);
+                    background.moveDrawXToLeft(GameConfig.RUNNING_SPEED);
                     for (int i = 0; i < listObject.size(); i++) {
                         listObject.get(i).moveDrawXToLeft(GameConfig.RUNNING_SPEED);
                     }

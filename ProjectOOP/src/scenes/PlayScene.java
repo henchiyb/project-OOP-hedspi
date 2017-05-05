@@ -43,8 +43,8 @@ public class PlayScene extends GameScene{
         stackCheckPressed = new Stack<>();
         BufferedImage backgroundImage = Utils.loadImage("res/background_play_1.png");
         backgroundController = new BackgroundController(bgScene1, new SingleView(backgroundImage));
-        enemyManager = new EnemyManager(2, 0);
-        itemManager = new ItemManager(1, 1, 1);
+        enemyManager = new EnemyManager(5, 0);
+        itemManager = new ItemManager(0, 0, 0);
     }
     @Override
     public void update(Graphics g) {
@@ -52,10 +52,10 @@ public class PlayScene extends GameScene{
         controllerManager.draw(g);
         enemyManager.draw(g);
         itemManager.draw(g);
-        count++;
-        if (count % 1610 == 0) itemManager.addBalloon();
-        else if (count % 5000 == 0) itemManager.addStone();
-        else if (count % 4000 == 0) itemManager.addBox();
+//        count++;
+//        if (count % 1610 == 0) itemManager.addBalloon();
+//        else if (count % 5000 == 0) itemManager.addStone();
+//        else if (count % 4000 == 0) itemManager.addBox();
     }
 
     private int popStackCount = 0;
@@ -163,6 +163,7 @@ public class PlayScene extends GameScene{
                     } else {
                         mainCharacter.setCharacterState(CharacterState.WALKING_LEFT);
                     }
+                    mainCharacter.setLeft(true);
                     break;
                 case KeyEvent.VK_D:
                     addKeyCodeIntoStack(KeyEvent.VK_D);

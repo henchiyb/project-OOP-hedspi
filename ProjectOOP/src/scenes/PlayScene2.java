@@ -21,10 +21,7 @@ public class PlayScene2 extends PlayScene {
     public static Background bgScene2 = new Background(0, 0, 0);
     public PlayScene2(){
         this.actionType = ActionType.PLAY_STAGE_2;
-//        controllerManager = ControllerManager.instance;
-//        if (PlayScene.mainCharacterController != null)
-//            controllerManager.addController(mainCharacterController);
-        BufferedImage backgroundImage = Utils.loadImage("res/background_1.png");
+        BufferedImage backgroundImage = Utils.loadImage("res/background_2.png");
         backgroundController = new BackgroundController(bgScene2, new SingleView(backgroundImage));
         enemyManager = new EnemyManager(0, 3);
     }

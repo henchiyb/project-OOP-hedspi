@@ -153,6 +153,7 @@ public class MainCharacterController extends CharacterController {
     @Override
     public void run() {
         super.run();
+        System.out.println("X : " + mainCharacter.getX() + " Z: " + mainCharacter.getZ());
         switch (mainCharacter.getCharacterState()) {
             case  SKILL_SHOOTING:
                 SceneManager.getInstance().sceneAction(ActionType.DETACH);
@@ -176,26 +177,22 @@ public class MainCharacterController extends CharacterController {
                 }
                 break;
             case WALKING_LEFT:
-                if (mainCharacter.getDrawX() <= 0 && mainCharacter.getX() >= GameConfig.SCREEN_WIDTH) {
+                if (mainCharacter.getDrawX() <= 0) {
                     PlayScene.bgScene1.setBackgroundState(CharacterState.WALKING_LEFT);
                 }
                 break;
             case WALKING_RIGHT:
-                if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH &&
-                        mainCharacter.getX() <= GameConfig.MAP_WIDTH - GameConfig.GAME_OBJECT_WIDTH
-                                - GameConfig.SCREEN_WIDTH) {
+                if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH) {
                     PlayScene.bgScene1.setBackgroundState(CharacterState.WALKING_RIGHT);
                 }
                 break;
             case RUNNING_LEFT:
-                if (mainCharacter.getDrawX() <= 0 && mainCharacter.getX() >= GameConfig.SCREEN_WIDTH) {
+                if (mainCharacter.getDrawX() <= 0) {
                     PlayScene.bgScene1.setBackgroundState(CharacterState.RUNNING_LEFT);
                 }
                 break;
             case RUNNING_RIGHT:
-                if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH &&
-                        mainCharacter.getX() <= GameConfig.MAP_WIDTH - GameConfig.GAME_OBJECT_WIDTH
-                                - GameConfig.SCREEN_WIDTH) {
+                if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH) {
                     PlayScene.bgScene1.setBackgroundState(CharacterState.RUNNING_RIGHT);
                 }
                 break;

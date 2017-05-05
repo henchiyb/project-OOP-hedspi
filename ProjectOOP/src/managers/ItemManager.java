@@ -27,7 +27,7 @@ public class ItemManager implements BaseController{
 
     public void addBox() {
         int randomX = ThreadLocalRandom.current().nextInt(GameConfig.MAP_START_X + 40,
-                GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH);
+                GameConfig.MAP_END_X - GameConfig.GAME_OBJECT_WIDTH);
         int randomZ = ThreadLocalRandom.current().nextInt(GameConfig.MAP_START_Y,
                 GameConfig.MAP_END_Y - GameConfig.GAME_OBJECT_HEIGHT);
         ThrowedItemController throwedItemController = new ThrowedItemController(new ThrowedItem(randomX, 0, randomZ,

@@ -24,7 +24,7 @@ public class PowerItem extends Item{
         if (otherCollision instanceof MainCharacter) {
             this.setItemSate(ItemState.BROKEN);
             if (((MainCharacter) otherCollision).getHealth() < ((MainCharacter) otherCollision).getMaxHealth() - this.getHealth())
-                ((Character) otherCollision).setHealth(((Character) otherCollision).getHealth() + this.getHealth());
+                ((MainCharacter) otherCollision).setHealth(((MainCharacter) otherCollision).getHealth() + this.getHealth());
         }
     }
 }

@@ -30,6 +30,7 @@ public class MainCharacter extends Character{
         stackControlAction  = new Stack<>();
         this.setLeft(true);
         CollisionController.getInstance().register(this);
+//        GameObjectController.getInstance().remove(this);
     }
 
     public int getMaxHealth() {
