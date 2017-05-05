@@ -1,5 +1,8 @@
 package utils;
 
+import game.GameConfig;
+import models.GameObject;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -84,5 +87,15 @@ public class Utils {
     }
     public static BufferedImage setSize(BufferedImage sbi, Dimension size) {
         return setSize(sbi, size.width, size.height);
+    }
+
+    public static void drawShadow(Graphics g, GameObject gameObject){
+        int alpha = 80;
+        Color myColour = new Color(0, 0, 0, alpha);
+        g.setColor(myColour);
+        g.fillOval(gameObject.getGameObject().getDrawX(),
+                gameObject.getGameObject().getZ() + GameConfig.GAME_OBJECT_HEIGHT - GameConfig.GAME_OBJECT_DEPTH,
+                GameConfig.GAME_OBJECT_WIDTH,
+                GameConfig.GAME_OBJECT_DEPTH);
     }
 }

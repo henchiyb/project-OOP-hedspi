@@ -35,16 +35,4 @@ public class Background extends GameObject {
     public void onCollide(Collision otherCollision) {
 
     }
-
-    public void moveLeft(int speed){
-        if (this.drawX < GameConfig.MAP_START_X) {
-            super.moveDrawXToRight(speed);
-        }
-    }
-
-    public void moveRight(int speed){
-        if (this.drawX > GameConfig.SCREEN_WIDTH - GameConfig.MAP_END_X) {
-            super.moveDrawXToLeft(speed);
-        }
-    }
 }

@@ -16,6 +16,7 @@ public class MainCharacter extends Character{
     private Stack<Integer> stackControlAction;
     private int healthBarWidth = GameConfig.BAR_WIDTH;
     private int manaBarWidth = GameConfig.BAR_WIDTH;
+    private int expBarWidth = 0;
     private int mainExp = 0;
     private int mainLevel = 1;
 
@@ -29,7 +30,6 @@ public class MainCharacter extends Character{
         stackControlAction  = new Stack<>();
         this.setLeft(true);
         CollisionController.getInstance().register(this);
-        GameObjectController.getInstance().remove(this);
     }
 
     public int getMaxHealth() {
@@ -58,6 +58,11 @@ public class MainCharacter extends Character{
 
     public void gainExp(int mainExp) {
         this.mainExp += mainExp;
+        updateExpBarWidth();
+    }
+
+    public int getExpBarWidth() {
+        return expBarWidth;
     }
 
     public int getMainLevel() {
@@ -71,6 +76,9 @@ public class MainCharacter extends Character{
         this.setHealth(maxHealth);
         this.setMana(maxMana);
         this.damageUp(1);
+        updateExpBarWidth();
+        updateHealthBarWidth();
+        updateExpBarWidth();
     }
 
     public void updateHealthBarWidth(){
@@ -79,6 +87,9 @@ public class MainCharacter extends Character{
 
     public void updateManaBarWidth(){
         manaBarWidth = mainCharacter.getMana() * GameConfig.BAR_WIDTH / maxMana;
+    }
+    public void updateExpBarWidth(){
+        expBarWidth = mainCharacter.getMainExp() * GameConfig.BAR_WIDTH / GameConfig.MAX_EXP;
     }
 
     public int getHealthBarWidth() {
@@ -163,6 +174,13 @@ public class MainCharacter extends Character{
                 this.setCharacterState(CharacterState.FALL_RIGHT);
             else
                 this.setCharacterState(CharacterState.FALL_LEFT);
+        } else if (otherCollision instanceof ThrowedItem){
+            if (((ThrowedItem) otherCollision).getItemSate() == ItemState.ON_GROUND &&
+                    this.getCharacterState() == CharacterState.ATTACKING_NORMAL){
+                this.setCharacterState(CharacterState.ELEVATING);
+                ((ThrowedItem) otherCollision).setItemSate(ItemState.ON_HAND);
+                System.out.println("Picked up");
+            }
         }
     }
 }

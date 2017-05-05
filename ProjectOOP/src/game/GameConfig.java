@@ -31,7 +31,9 @@ public class GameConfig
     public static int ATTACKING_FRAME_RATE = 5;
     public static int FALLING_FRAME_RATE = 10;
     public static int JUMPING_FRAME_RATE = 10;
-    public static int ITEM_FRAME_RATE = 2;
+    public static int ITEM_FRAME_RATE = 3;
+    public static int ITEM_BROKEN_FRAME_RATE = 20;
+    public static int BALLOON_FRAME_RATE = 30;
 
     public static int GAME_OBJECT_DEPTH = 8;
     public static int GAME_OBJECT_WIDTH = 40;
@@ -39,7 +41,8 @@ public class GameConfig
 
     public static int BAR_WIDTH = 150;
     public static int BAR_HEIGHT = 13;
-    public static final int MAX_EXP = 10;
+    public static int EXP_BAR_HEIGHT = 5;
+    public static final int MAX_EXP = 25;
 
     public static int POP_STACK_DURATION = 100;
     public static final int ENEMY_SHOOTING_DURATION = 200;

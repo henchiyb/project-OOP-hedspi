@@ -25,31 +25,35 @@ public class BackgroundController extends SingleController {
         super.run();
         switch (background.getBackgroundState()) {
             case WALKING_LEFT:
-                background.moveLeft(GameConfig.WALKING_SPEED);
-                for (int i = 0; i < listObject.size(); i++) {
-                    if (listObject.get(i).getDrawX() > 0)
+                if (background.getDrawX() < GameConfig.MAP_START_X) {
+                    background.moveDrawXToRight(GameConfig.WALKING_SPEED);
+                    for (int i = 0; i < listObject.size(); i++) {
                         listObject.get(i).moveDrawXToRight(GameConfig.WALKING_SPEED);
+                    }
                 }
                 break;
             case WALKING_RIGHT:
-                background.moveRight(GameConfig.WALKING_SPEED);
-                for (int i = 0; i < listObject.size(); i++) {
-                    if (listObject.get(i).getDrawX() < GameConfig.MAP_WIDTH - GameConfig.GAME_OBJECT_WIDTH)
+                if (background.getDrawX() > GameConfig.SCREEN_WIDTH - GameConfig.MAP_END_X) {
+                    background.moveDrawXToLeft(GameConfig.WALKING_SPEED);
+                    for (int i = 0; i < listObject.size(); i++) {
                         listObject.get(i).moveDrawXToLeft(GameConfig.WALKING_SPEED);
+                    }
                 }
                 break;
             case RUNNING_LEFT:
-                background.moveLeft(GameConfig.RUNNING_SPEED);
-                for (int i = 0; i < listObject.size(); i++) {
-                    if (listObject.get(i).getDrawX() > 0)
+                if (background.getDrawX() < GameConfig.MAP_START_X) {
+                    background.moveDrawXToRight(GameConfig.WALKING_SPEED);
+                    for (int i = 0; i < listObject.size(); i++) {
                         listObject.get(i).moveDrawXToRight(GameConfig.RUNNING_SPEED);
+                    }
                 }
                 break;
             case RUNNING_RIGHT:
-                background.moveRight(GameConfig.RUNNING_SPEED);
-                for (int i = 0; i < listObject.size(); i++) {
-                    if (listObject.get(i).getDrawX() < GameConfig.MAP_WIDTH - GameConfig.GAME_OBJECT_WIDTH)
+                if (background.getDrawX() > GameConfig.SCREEN_WIDTH - GameConfig.MAP_END_X) {
+                    background.moveDrawXToLeft(GameConfig.WALKING_SPEED);
+                    for (int i = 0; i < listObject.size(); i++) {
                         listObject.get(i).moveDrawXToLeft(GameConfig.RUNNING_SPEED);
+                    }
                 }
                 break;
             case STANDING:

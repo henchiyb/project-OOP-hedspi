@@ -18,6 +18,8 @@ import java.util.ArrayList;
  * Created by Nhan on 3/7/2017.
  */
 public class MainCharacterController extends CharacterController {
+    private static final int BAR_X = 135;
+    private static final int STRING_X = 110;
     private MainCharacter mainCharacter = (MainCharacter) this.gameObject;
     private int countTimeFall = 0;
 
@@ -40,6 +42,15 @@ public class MainCharacterController extends CharacterController {
     private SingleView singleViewStunNormal1;
     private SingleView singleViewStunNormal2;
     private SingleView singleViewFalling;
+    private Animation animationDavisElevatingStandingRight;
+    private Animation animationDavisElevatingStandingLeft;
+    private Animation animationDavisThrowingRight;
+    private Animation animationDavisThrowingLeft;
+    private Animation animationDavisElevatingWalkingRight;
+    private Animation animationDavisElevatingWalkingLeft;
+    private Animation animationDavisElevatingRunningRight;
+    private Animation animationDavisElevatingRunningLeft;
+
     private int countTimeRegenMana = 0;
 
     public MainCharacterController(GameObject gameObject) {
@@ -79,6 +90,21 @@ public class MainCharacterController extends CharacterController {
             singleViewStunNormal1 = new SingleView(Utils.loadImage("res/davis_stun_normal_1_behind.png"));
             singleViewStunNormal2 = new SingleView(Utils.loadImage("res/davis_stun_normal_2_behind.png"));
             singleViewFalling = new SingleView(animationDavisFalling.getSubImage(animationDavisFalling.getNumberOfFrame()));
+            animationDavisElevatingStandingRight = new Animation(ResourceMap.DAVIS_ELEVATING,
+                    GameConfig.STANDING_FRAME_RATE);
+            animationDavisElevatingStandingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_ELEVATING),
+                    GameConfig.STANDING_FRAME_RATE);
+            animationDavisThrowingRight = new Animation(ResourceMap.DAVIS_THROWING, GameConfig.STANDING_FRAME_RATE);
+            animationDavisThrowingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_THROWING),
+                    GameConfig.STANDING_FRAME_RATE);
+            animationDavisElevatingWalkingRight = new Animation(ResourceMap.DAVIS_ELEVATING_WALKING,
+                    GameConfig.RUNNING_FRAME_RATE);
+            animationDavisElevatingWalkingLeft = new Animation(Utils.flipImages(ResourceMap.DAVIS_ELEVATING_WALKING),
+                    GameConfig.RUNNING_FRAME_RATE);
+            animationDavisElevatingRunningRight = new Animation(ResourceMap.DAVIS_ELEVATING_WALKING,
+                    GameConfig.WALKING_FRAME_RATE);
+            animationDavisElevatingRunningLeft = new Animation(ResourceMap.DAVIS_ELEVATING_WALKING,
+                    GameConfig.WALKING_FRAME_RATE);
             mainCharacter.setDamage(10);
             mainCharacter.setHealth(100);
             mainCharacter.setMaxHealth(100);
@@ -115,6 +141,7 @@ public class MainCharacterController extends CharacterController {
             singleViewDefendindLeft = new SingleView(Utils.flipImage(Utils.loadImage("res/davis_defend_1.png")));
             singleViewStunNormal1 = new SingleView(Utils.loadImage("res/davis_stun_normal_1_behind.png"));
             singleViewStunNormal2 = new SingleView(Utils.loadImage("res/davis_stun_normal_2_behind.png"));
+            singleViewFalling = new SingleView(animationDavisFalling.getSubImage(animationDavisFalling.getNumberOfFrame()));
             mainCharacter.setDamage(15);
             mainCharacter.setHealth(80);
             mainCharacter.setMaxHealth(80);
@@ -181,6 +208,26 @@ public class MainCharacterController extends CharacterController {
             case STANDING:
                 SceneManager.getInstance().sceneAction(ActionType.ATTACH);
                 break;
+            case ELEVATING_WALKING_LEFT:
+                mainCharacter.walkLeft();
+                break;
+            case ELEVATING_WALKING_RIGHT:
+                mainCharacter.walkRight();
+                break;
+            case ELEVATING_WALKING_UP:
+                mainCharacter.walkUp();
+                break;
+            case ELEVATING_WALKING_DOWN:
+                mainCharacter.walkDown();
+                break;
+            case ELEVATING_RUNNING_LEFT:
+                mainCharacter.runLeft();
+                break;
+            case ELEVATING_RUNNING_RIGHT:
+                mainCharacter.runRight();
+                break;
+            case ELEVATING:
+                break;
         }
         if (mainCharacter.getCharacterState() != CharacterState.WALKING_LEFT &&
                 mainCharacter.getCharacterState() != CharacterState.WALKING_RIGHT &&
@@ -191,7 +238,6 @@ public class MainCharacterController extends CharacterController {
         if(mainCharacter.getMainExp() == GameConfig.MAX_EXP){
             mainCharacter.setMainExp(0);
             mainCharacter.levelUp();
-            System.out.println("level " + mainCharacter.getMainLevel());
         }
 
         countTimeRegenMana++;
@@ -207,16 +253,26 @@ public class MainCharacterController extends CharacterController {
     @Override
     public void draw(Graphics g) {
         //Health bar
-        g.setColor(Color.RED);
-        g.fillRect(20, 80, mainCharacter.getHealthBarWidth(), GameConfig.BAR_HEIGHT);
         g.setColor(Color.BLACK);
-        g.drawRect(20, 80, GameConfig.BAR_WIDTH, GameConfig.BAR_HEIGHT);
+        g.drawString("HP", STRING_X, 50);
+        g.setColor(Color.RED);
+        g.fillRect(BAR_X, 40, mainCharacter.getHealthBarWidth(), GameConfig.BAR_HEIGHT);
+        g.setColor(Color.BLACK);
+        g.drawRect(BAR_X, 40, GameConfig.BAR_WIDTH, GameConfig.BAR_HEIGHT);
 
         //Mana bar
+        g.drawString("MP", STRING_X, 75);
         g.setColor(Color.BLUE);
-        g.fillRect(20, 110, mainCharacter.getManaBarWidth(), GameConfig.BAR_HEIGHT);
+        g.fillRect(BAR_X, 65, mainCharacter.getManaBarWidth(), GameConfig.BAR_HEIGHT);
         g.setColor(Color.BLACK);
-        g.drawRect(20, 110, GameConfig.BAR_WIDTH, GameConfig.BAR_HEIGHT);
+        g.drawRect(BAR_X, 65, GameConfig.BAR_WIDTH, GameConfig.BAR_HEIGHT);
+
+        //EXP bar
+        g.drawString("EXP", STRING_X, 95);
+        g.setColor(Color.CYAN);
+        g.fillRect(BAR_X, 90, mainCharacter.getExpBarWidth(), GameConfig.EXP_BAR_HEIGHT);
+        g.setColor(Color.BLACK);
+        g.drawRect(BAR_X, 90, GameConfig.BAR_WIDTH, GameConfig.EXP_BAR_HEIGHT);
         switch (mainCharacter.getCharacterState()){
             case STANDING:
                 resetAnimation();
@@ -266,18 +322,6 @@ public class MainCharacterController extends CharacterController {
                 else
                     this.view = singleViewJumpingRight;
                 break;
-            case JUMPING_AT_LEFT:
-                this.view = singleViewJumpingLeft;
-                break;
-            case JUMPING_AT_RIGHT:
-                this.view = singleViewJumpingRight;
-                break;
-            case DEFENDING:
-                if(mainCharacter.isLeft())
-                    this.view = singleViewDefendindLeft;
-                else
-                    this.view = singleViewDefendindRight;
-                break;
             case SKILL_SHOOTING:
                 if(mainCharacter.isLeft())
                     this.view = animationDavisShootingLeft;
@@ -323,11 +367,46 @@ public class MainCharacterController extends CharacterController {
             case DEAD:
                 this.view = singleViewFalling;
                 break;
+            case ELEVATING:
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisElevatingStandingLeft;
+                else
+                    this.view = animationDavisElevatingStandingRight;
+                break;
+            case THROWING:
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisThrowingLeft;
+                else
+                    this.view = animationDavisThrowingRight;
+                break;
+            case ELEVATING_WALKING_LEFT:
+                this.view = animationDavisElevatingWalkingLeft;
+                break;
+            case ELEVATING_WALKING_RIGHT:
+                this.view = animationDavisElevatingWalkingRight;
+                break;
+            case ELEVATING_WALKING_DOWN:
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisElevatingWalkingLeft;
+                else
+                    this.view = animationDavisElevatingWalkingRight;
+                break;
+            case ELEVATING_WALKING_UP:
+                if (mainCharacter.isLeft())
+                    this.view = animationDavisElevatingWalkingLeft;
+                else
+                    this.view = animationDavisElevatingWalkingRight;
+                break;
+            case ELEVATING_RUNNING_LEFT:
+                this.view = animationDavisElevatingRunningLeft;
+                break;
+            case ELEVATING_RUNNING_RIGHT:
+                this.view = animationDavisElevatingRunningRight;
+                break;
             default:
                 resetAnimation();
                 break;
         }
-
         super.draw(g);
     }
 

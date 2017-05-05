@@ -6,6 +6,7 @@ import models.Character;
 import models.CharacterState;
 import models.GameObject;
 import scenes.ActionType;
+import utils.Utils;
 
 import java.awt.*;
 
@@ -69,21 +70,6 @@ public abstract class CharacterController extends SingleController {
             case JUMPING:
                 handleJumping(CharacterState.JUMPING);
                 break;
-            case JUMPING_AT_LEFT:
-                handleJumping(CharacterState.JUMPING_AT_LEFT);
-                break;
-            case JUMPING_AT_RIGHT:
-                handleJumping(CharacterState.JUMPING_AT_RIGHT);
-                break;
-            case DEFENDING:
-                countTimeDefendAnimation++;
-//                SceneManager.getInstance().sceneAction(ActionType.DETACH, false);
-                if (countTimeDefendAnimation > TIME_DEFEND){
-                    character.setCharacterState(CharacterState.STANDING);
-                    countTimeDefendAnimation = 0;
-//                    SceneManager.getInstance().sceneAction(ActionType.ATTACH, false);
-                }
-                break;
             case STUN_NORMAL_1:
             case STUN_NORMAL_2:
                 countTimeStunNormal++;
@@ -122,13 +108,7 @@ public abstract class CharacterController extends SingleController {
 
     @Override
     public void draw(Graphics g) {
-        int alpha = 80;
-        Color myColour = new Color(0, 0, 0, alpha);
-        g.setColor(myColour);
-        g.fillOval(this.getGameObject().getDrawX(),
-            this.getGameObject().getZ() + GameConfig.GAME_OBJECT_HEIGHT - GameConfig.GAME_OBJECT_DEPTH,
-            GameConfig.GAME_OBJECT_WIDTH,
-            GameConfig.GAME_OBJECT_DEPTH);
+        Utils.drawShadow(g, this.getGameObject());
         super.draw(g);
     }
 
@@ -144,10 +124,6 @@ public abstract class CharacterController extends SingleController {
         if (countTimeJumping < TIME_JUMP){
             if (characterState == CharacterState.JUMPING) {
                 character.jump(countTimeJumping * 0.017);
-            } else if (characterState == CharacterState.JUMPING_AT_LEFT){
-                character.jumpAtLeft(countTimeJumping * 0.017);
-            } else if (characterState == CharacterState.JUMPING_AT_RIGHT){
-                character.jumpAtRight(countTimeJumping * 0.017);
             }
         } else {
             countTimeJumping = 0;

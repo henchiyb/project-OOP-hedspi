@@ -68,4 +68,27 @@ public class ResourceMap {
     public static final String[] ENEMY2_SHOOTING = {"res/enemy/enemy2/enemy2_shooting (1).png",
             "res/enemy/enemy2/enemy2_shooting (2).png","res/enemy/enemy2/enemy2_shooting (3).png"};
     public static final String[] ENEMY2_BALL_FLY = {};
+
+    //item
+    public static final String[] DAVIS_ELEVATING = {"res/davis_elevating_0.png"};
+    public static final String[] DAVIS_ELEVATING_WALKING = {"res/davis_elevating_0.png", "res/davis_elevating_1.png",
+            "res/davis_elevating_2.png", "res/davis_elevating_3.png"};
+    public static final String[] DAVIS_THROWING = {"res/davis_elevating_1.png", "res/davis_elevating_2.png",
+            "res/davis_elevating_3.png"};
+
+    public static final String[] BOX_STANDSTILL = {"res/weapon3/5.png"};
+    public static final String[] BOX_FALDOWN = {"res/weapon3/0.png"};
+    public static final String[] BOX_THROWING = {"res/weapon3/2.png", "res/weapon3/3.png", "res/weapon3/4.png"};
+    public static final String[] BOX_BROKEN = {"res/box_broken/16.png", "res/box_broken/17.png", "res/box_broken/18.png",
+            "res/box_broken/19.png"};
+
+    public static final String[] STONE_STANDSTILL = {"res/weapon1/0.png"};
+    public static final String[] STONE_FALLDOWN = {"res/weapon1/0.png", "res/weapon1/1.png", "res/weapon1/2.png"};
+    public static final String[] STONE_THROWING = {"res/weapon1/1.png", "res/weapon1/1.png", "res/weapon1/2.png",
+            "res/weapon1/3.png", "res/weapon1/4.png", "res/weapon1/5.png"};
+    public static final String[] STONE_BROKEN = {"res/stone_broken/16.png", "res/stone_broken/17.png", "res/stone_broken/18.png",
+            "res/stone_broken/19.png"};
+
+    public static final String[] MAGIC_BALLOON = {"res/power_item/0.png", "res/power_item/1.png", "res/power_item/2.png"
+            , "res/power_item/3.png"};
 }

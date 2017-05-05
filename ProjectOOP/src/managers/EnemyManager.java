@@ -19,8 +19,10 @@ public class EnemyManager implements BaseController{
     public EnemyManager(int numOfEnemyFight, int numOfEnemyShoot){
         enemyControllerList = new ArrayList<>();
         for (int i = 0; i < numOfEnemyFight; i++){
-            int randomX = ThreadLocalRandom.current().nextInt(300, 800 + 1);
-            int randomY = ThreadLocalRandom.current().nextInt(0, 600 + 1);
+            int randomX = ThreadLocalRandom.current().nextInt(300,
+                    GameConfig.MAP_END_X - GameConfig.GAME_OBJECT_WIDTH + 1);
+            int randomY = ThreadLocalRandom.current().nextInt(GameConfig.MAP_START_Y,
+                    GameConfig.MAP_END_Y + 1 - GameConfig.GAME_OBJECT_HEIGHT);
             EnemyController enemyController = new EnemyController(new EnemyCharacter(randomX,
                     0,
                     randomY,
@@ -30,8 +32,10 @@ public class EnemyManager implements BaseController{
             enemyControllerList.add(enemyController);
         }
         for (int i = 0; i < numOfEnemyShoot; i++){
-            int randomX = ThreadLocalRandom.current().nextInt(300, 800 + 1);
-            int randomY = ThreadLocalRandom.current().nextInt(0, 600 + 1);
+            int randomX = ThreadLocalRandom.current().nextInt(300,
+                    GameConfig.MAP_END_X - GameConfig.GAME_OBJECT_WIDTH + 1);
+            int randomY = ThreadLocalRandom.current().nextInt(GameConfig.MAP_START_Y,
+                    GameConfig.MAP_END_Y + 1 - GameConfig.GAME_OBJECT_HEIGHT);
             EnemyController enemyController = new EnemyController(new EnemyCharacter(randomX,
                     0,
                     randomY,

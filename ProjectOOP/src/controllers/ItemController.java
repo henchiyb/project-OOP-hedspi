@@ -1,7 +1,11 @@
 package controllers;
 
+import game.GameConfig;
 import models.GameObject;
 import models.Item;
+import utils.Utils;
+
+import java.awt.*;
 
 /**
  * Created by Nhan on 5/1/2017.
@@ -12,16 +16,9 @@ public class ItemController extends SingleController {
         super(gameObject);
     }
 
-    public void run() {
-        switch (item.getItemSate()) {
-            case IN_THE_SKY:
-                item.fallDown();
-                System.out.println(item.getY());
-                break;
-            case ON_GROUND:
-                break;
-            default:
-                break;
-        }
+    @Override
+    public void draw(Graphics g){
+        Utils.drawShadow(g, item);
+        super.draw(g);
     }
 }

@@ -1,6 +1,8 @@
 package controllers;
 
 import game.GameConfig;
+import game.ResourceMap;
+import models.CharacterState;
 import models.GameObject;
 import models.ItemState;
 import models.ThrowedItem;
@@ -12,80 +14,81 @@ import java.awt.*;
  * Created by Nhan on 5/1/2017.
  */
 public class ThrowedItemController extends ItemController {
-    private ThrowedItem throwedItem = (ThrowedItem) this.gameObject;
-    private int countTimeItemFall = 0;
-
     public ThrowedItemController(GameObject gameObject) {
         super(gameObject);
     }
+    private int countTimeBroken = 0;
 
-    private Animation standStillItem = new Animation("res/weapon3/5.png", GameConfig.ITEM_FRAME_RATE); // stand still
-    private Animation animationItem = new Animation("res/weapon3/0.png", GameConfig.ITEM_FRAME_RATE); // falling down
-    private Animation onHandItem = new Animation("res/weapon3/5.png", GameConfig.ITEM_FRAME_RATE);
-    private Animation throwingItem = new Animation( GameConfig.ITEM_FRAME_RATE,
-            "res/weapon3/2.png", "res/weapon3/3.png", "res/weapon3/4.png");
-    private Animation brokenItem;
-    private Animation disappearItem = new Animation("res/weapon3_broken/16.png", GameConfig.ITEM_FRAME_RATE);
+    private ThrowedItem throwedItem = (ThrowedItem) this.gameObject;
+    private Animation standStillItem = throwedItem.isBox() ? new Animation(ResourceMap.BOX_STANDSTILL, GameConfig.ITEM_FRAME_RATE) :
+            new Animation(ResourceMap.STONE_STANDSTILL, GameConfig.ITEM_FRAME_RATE);   // ON_HAND & ON_GROUND
+    private Animation fallingDownItem = throwedItem.isBox() ? new Animation(ResourceMap.BOX_FALDOWN, GameConfig.ITEM_FRAME_RATE) :
+            new Animation(GameConfig.ITEM_FRAME_RATE, ResourceMap.STONE_FALLDOWN);    // FALL_DOWN
+    private Animation throwingItem = throwedItem.isBox() ? new Animation(GameConfig.ITEM_FRAME_RATE, ResourceMap.BOX_THROWING) :
+            new Animation(GameConfig.ITEM_FRAME_RATE, ResourceMap.STONE_THROWING);     // THROWING
+    private Animation brokenItem = throwedItem.isBox()? new Animation(GameConfig.ITEM_BROKEN_FRAME_RATE, ResourceMap.BOX_BROKEN) :
+            new Animation(GameConfig.ITEM_BROKEN_FRAME_RATE, ResourceMap.STONE_BROKEN);  // BROKEN
 
     public void run() {
         switch (throwedItem.getItemSate()) {
             case IN_THE_SKY:
                 throwedItem.fallDown();
-                throwedItem.setOriginalXYCoord(throwedItem.getX(),throwedItem.getY());
-                System.out.println(throwedItem.getY());
                 break;
             case ON_HAND:
                 throwedItem.pickedUp();
-                break;
-            case THROWING:
-                throwedItem.throwed(throwedItem.getOriginalXCoord(), throwedItem.getOriginalYCoord());
-                break;
-            case ON_GROUND:
-                // tam thoi, item roi xuong, doi 10s roi chuyen trang thai thanh 'bi nem di', to try method ThrowItem.throwed()
-                countTimeItemFall++;
-                if (countTimeItemFall > 60){
-                    countTimeItemFall = 0;
+                if (throwedItem.getMainCharacter().getCharacterState() == CharacterState.THROWING) {
                     throwedItem.setItemSate(ItemState.THROWING);
+                } else if (throwedItem.getMainCharacter().getCharacterState() == CharacterState.FALL_LEFT
+                        || throwedItem.getMainCharacter().getCharacterState() == CharacterState.FALL_RIGHT
+                        || throwedItem.getMainCharacter().getCharacterState() == CharacterState.STUN_NORMAL_1
+                        || throwedItem.getMainCharacter().getCharacterState() == CharacterState.STUN_NORMAL_2
+                        || throwedItem.getMainCharacter().getCharacterState() == CharacterState.JUMPING
+                        || throwedItem.getMainCharacter().getCharacterState() == CharacterState.SKILL_SHOOTING
+                        ) {
+                    throwedItem.fallDownFromCharacter();
+                    throwedItem.setItemSate(ItemState.ON_GROUND);
                 }
                 break;
-            case BROKEN:
-                throwedItem.setItemSate(ItemState.DISAPPEAR);
+            case THROWING:
+                throwedItem.throwed(throwedItem.getOriginalXCoordDraw(),
+                        throwedItem.getOriginalYCoordDraw(),
+                        throwedItem.getOriginalXCoord(),
+                        throwedItem.getOriginalZCoord());
                 break;
-            case DISAPPEAR:
+            case ON_GROUND:
+                break;
+            case BROKEN:
+                countTimeBroken++;
+                if (countTimeBroken > 60) {
+                    throwedItem.destroy();
+                    throwedItem.setAlive(false);
+                }
                 break;
             default:
                 break;
         }
-
     }
 
     public void draw(Graphics g) {
         switch (throwedItem.getItemSate()) {
             case IN_THE_SKY:
-                this.view = animationItem;
+                this.view = fallingDownItem;
                 break;
             case ON_GROUND:
                 this.view = standStillItem;
                 break;
             case ON_HAND:
-                this.view = onHandItem;
+                this.view = standStillItem;
                 break;
             case THROWING:
                 this.view = throwingItem;
                 break;
             case BROKEN:
-                this.view = standStillItem; //tam thoi the
-                break;
-            case DISAPPEAR:
-                this.view = disappearItem;
+                this.view = brokenItem;
                 break;
             default:
                 break;
         }
         super.draw(g);
-    }
-
-    public ThrowedItem getThrowedItem() {
-        return throwedItem;
     }
 }

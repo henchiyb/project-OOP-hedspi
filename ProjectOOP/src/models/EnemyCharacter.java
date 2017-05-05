@@ -23,7 +23,7 @@ public class EnemyCharacter extends Character {
     @Override
     public void walkRight(){
         super.walkRight();
-            this.drawX += GameConfig.WALKING_SPEED;
+        this.drawX += GameConfig.WALKING_SPEED;
     }
     @Override
     public void runLeft(){

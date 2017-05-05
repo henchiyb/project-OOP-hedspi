@@ -264,18 +264,6 @@ import java.util.ArrayList;
                     else
                         this.view = singleViewJumpingRight;
                     break;
-                case JUMPING_AT_LEFT:
-                    this.view = singleViewJumpingLeft;
-                    break;
-                case JUMPING_AT_RIGHT:
-                    this.view = singleViewJumpingRight;
-                    break;
-                case DEFENDING:
-                    if (enemyCharacter.isLeft())
-                        this.view = singleViewDefendindLeft;
-                    else
-                        this.view = singleViewDefendindRight;
-                    break;
                 case SKILL_SHOOTING:
                     if (enemyCharacter.isLeft())
                         this.view = animationEnemyShootingLeft;
