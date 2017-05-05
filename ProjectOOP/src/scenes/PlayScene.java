@@ -19,7 +19,7 @@ import java.util.Stack;
  * Created by Nhan on 3/7/2017.
  */
 public class PlayScene extends GameScene{
-    private ItemManager itemManager;
+    protected ItemManager itemManager;
     private Stack<Integer> stackControlAction;
     private Stack<Integer> stackCheckPressed;
     private MainCharacter mainCharacter;
@@ -29,10 +29,11 @@ public class PlayScene extends GameScene{
     protected EnemyManager enemyManager;
     public static int mainType = 1;
     public static MainCharacterController mainCharacterController = null;
-    public static Background bgScene1 = new Background(0, 0, 0);
+    public static Background bgScene = new Background(0);
     private int count = 0;
 
-    public PlayScene(){
+    public PlayScene(int bgDrawX){
+        bgScene.setDrawX(bgDrawX);
         this.actionType = ActionType.PLAY_STAGE_1;
         controllerManager = ControllerManager.instance;
         if (mainCharacterController == null)
@@ -42,10 +43,11 @@ public class PlayScene extends GameScene{
         stackControlAction = mainCharacter.getStackControlAction();
         stackCheckPressed = new Stack<>();
         BufferedImage backgroundImage = Utils.loadImage("res/background_play_1.png");
-        backgroundController = new BackgroundController(bgScene1, new SingleView(backgroundImage));
+        backgroundController = new BackgroundController(bgScene, new SingleView(backgroundImage));
         enemyManager = new EnemyManager(5, 0);
-        itemManager = new ItemManager(0, 0, 0);
+        itemManager = new ItemManager(2, 0, 0);
     }
+
     @Override
     public void update(Graphics g) {
         backgroundController.draw(g);

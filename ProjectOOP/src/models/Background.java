@@ -8,9 +8,10 @@ import game.GameConfig;
  */
 public class Background extends GameObject {
     private CharacterState backgroundState = CharacterState.STANDING;
-    public Background(int x, int y, int z) {
-        super(x, y, z);
+    public Background(int drawX) {
+        super(0, 0, 0);
         GameObjectController.getInstance().remove(this);
+        this.drawX = drawX;
     }
 
     public Background(int x, int y, int z, int width, int height) {

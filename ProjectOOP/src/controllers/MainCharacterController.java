@@ -12,7 +12,6 @@ import views.Animation;
 import views.SingleView;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by Nhan on 3/7/2017.
@@ -178,22 +177,22 @@ public class MainCharacterController extends CharacterController {
                 break;
             case WALKING_LEFT:
                 if (mainCharacter.getDrawX() <= 0) {
-                    PlayScene.bgScene1.setBackgroundState(CharacterState.WALKING_LEFT);
+                    PlayScene.bgScene.setBackgroundState(CharacterState.WALKING_LEFT);
                 }
                 break;
             case WALKING_RIGHT:
                 if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH) {
-                    PlayScene.bgScene1.setBackgroundState(CharacterState.WALKING_RIGHT);
+                    PlayScene.bgScene.setBackgroundState(CharacterState.WALKING_RIGHT);
                 }
                 break;
             case RUNNING_LEFT:
                 if (mainCharacter.getDrawX() <= 0) {
-                    PlayScene.bgScene1.setBackgroundState(CharacterState.RUNNING_LEFT);
+                    PlayScene.bgScene.setBackgroundState(CharacterState.RUNNING_LEFT);
                 }
                 break;
             case RUNNING_RIGHT:
                 if (mainCharacter.getDrawX() >= GameConfig.SCREEN_WIDTH - GameConfig.GAME_OBJECT_WIDTH) {
-                    PlayScene.bgScene1.setBackgroundState(CharacterState.RUNNING_RIGHT);
+                    PlayScene.bgScene.setBackgroundState(CharacterState.RUNNING_RIGHT);
                 }
                 break;
             case STUN_NORMAL_1:
@@ -230,7 +229,7 @@ public class MainCharacterController extends CharacterController {
                 mainCharacter.getCharacterState() != CharacterState.WALKING_RIGHT &&
                 mainCharacter.getCharacterState()  != CharacterState.RUNNING_LEFT &&
                 mainCharacter.getCharacterState()  != CharacterState.RUNNING_RIGHT){
-            PlayScene.bgScene1.setBackgroundState(CharacterState.STANDING);
+            PlayScene.bgScene.setBackgroundState(CharacterState.STANDING);
         }
         if(mainCharacter.getMainExp() == GameConfig.MAX_EXP){
             mainCharacter.setMainExp(0);

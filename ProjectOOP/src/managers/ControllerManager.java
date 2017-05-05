@@ -22,7 +22,7 @@ public class ControllerManager implements BaseController{
         return skillList;
     }
 
-    public ControllerManager() {
+    private ControllerManager() {
         controllerArrayList = new ArrayList<>();
         skillList = new ArrayList<>();
     }
@@ -33,6 +33,10 @@ public class ControllerManager implements BaseController{
 
     public void removeController(SingleController controller){
         controllerArrayList.remove(controller);
+    }
+
+    public void clear(){
+        controllerArrayList = new ArrayList<>();
     }
 
     public ArrayList<SingleController> getControllerArrayList() {

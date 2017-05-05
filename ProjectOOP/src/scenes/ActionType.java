@@ -8,6 +8,7 @@ public enum ActionType {
     CHOOSE_MAIN,
     PLAY_STAGE_1,
     PLAY_STAGE_2,
+    BACK_TO_STAGE_1,
     ATTACH,
     DETACH
 }

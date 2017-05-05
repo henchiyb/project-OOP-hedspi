@@ -1,6 +1,7 @@
 package game;
 
 import managers.SceneManager;
+import models.MainCharacter;
 import scenes.*;
 
 import java.awt.*;
@@ -77,10 +78,18 @@ public class GameWindow extends Frame implements Runnable, SceneListener{
                 }
                 break;
             case PLAY_STAGE_1:
-                attach(new PlayScene());
+                attach(new PlayScene(0));
                 break;
             case PLAY_STAGE_2:
                 attach(new PlayScene2());
+                break;
+            case BACK_TO_STAGE_1:
+                PlayScene playScene = new PlayScene(GameConfig.SCREEN_WIDTH - GameConfig.MAP_WIDTH);
+                attach(playScene);
+                MainCharacter.mainCharacter.setX(GameConfig.MAP_WIDTH - 200);
+                MainCharacter.mainCharacter.setZ(300);
+                MainCharacter.mainCharacter.setDrawX(GameConfig.MAP_WIDTH - 200);
+                MainCharacter.mainCharacter.setDrawY(300);
                 break;
             case ATTACH:
                 attach(gameScene);
